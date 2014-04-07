@@ -1,0 +1,147 @@
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title></title>
+
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+
+        <style type="text/css">
+          .centered {
+            margin: 0 auto;
+          }
+
+        </style>
+
+
+<body>
+        <!-- Form Name -->
+        
+        <legend>Matrix echelon calculator</legend>
+
+
+<!-- 
+
+        <br> <br> <br>
+        
+        <div class="container">
+          <div class="well " id="containerStep">
+                <div class="row">
+                  <div class="col-xs-8 col-md-9">
+                    
+                    <div class="table-responsive" >
+
+                      <table class="table table-bordered" id="matrixStepsHolder">
+                        
+                        <thead>
+
+                        </thead >
+                          <tbody><tr><td>142412</td><td>21</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>022398239823</td><td>12</td><td>0993929.232</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>09999</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody>
+                      </table>
+
+                    </div>
+                  
+
+                  </div>
+
+                  
+                  <div class="col-xs-4 col-md-3">
+                    <h1 id="stepNumber">Step nº 3</h1>
+                    <strong id="descriptionStep">Multiply row nº2 by 3</strong>
+                  </div>
+
+
+                </div>
+              
+          </div>
+        </div>
+
+
+
+
+
+        <br> <br> <br>
+ -->
+
+
+        <div class="container" id="myContainer">
+        
+
+          <h2 id="enter">Enter your matrix here </h2>
+          <span id="holdMatrix">
+
+          </span>      
+
+
+
+          <br>
+          <button class="btn btn-success" id="echelonButton">Echelon</button>
+           <button class="btn btn-primary" id="backIndex">Change settings</button>
+        </div>
+
+
+        <div class="container" id="myContainerResults">
+          
+              <h1>Be happy (:</h1>
+              <p style="opacity: 0.5;">
+                Obs: All decimal numbers are rounded by 5 digits and we use a EPS equals 10e-8
+                <p style="opacity: 0.5; font-size: 12px;">If you have found a bug, just stay calm and call the fire department</p>
+              </p>
+
+
+              <div class="row centered">
+                <div class="col-xs-12">
+                  <div class="table-responsive" >
+                    <table class="table table-bordered" id="matrixResultsHolder">
+
+
+                    </table>
+
+                  </div>
+                  
+
+                </div>
+
+              </div>
+
+
+              <button class="btn btn-info"  role="button" id="stepByStep">Step-by-step
+              </button>
+
+              <button class="btn  btn-primary"  role="button" id="back">Go back
+              </button>
+     
+              <br><br>
+              <blockquote style="border-left: none;"> Thank's for using our app.</blockquote>
+          
+
+
+        </div>
+
+
+          <!-- Container that contain the steps -->  
+          <div class="container" id="mySteps">
+
+
+
+
+
+          </div>
+
+        </div>
+
+
+        
+        <script type="text/javascript" src="js/script.js"></script>
+        <script type="text/javascript" src="js/echelon.js"></script>
+        <script type="text/javascript" src="js/echelonPage.js"></script>
+    
+
+</body>
+</html>
+
