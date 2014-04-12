@@ -296,6 +296,13 @@ function Steps(){
     this.list = [];
     this.actual = 0;
     this.size = 0;
+    
+
+    this.restart = function() {
+        this.list = [];
+        this.actual = 0;
+        this.size = 0;
+    }
 
     this.saveStep = function(matrix, description){
         //alertMatrix(matrix);
@@ -326,6 +333,11 @@ function Steps(){
 
         // get the matrix
         var matrix = this.list[step];
+
+        if(matrix == undefined || matrix.matrixHtml == undefined){
+            console.log('step undefined: ' + step);
+        }
+
         var matrixHtml = matrix.matrixHtml;
         var descriptionText = matrix.description;
         console.log('dstext:' + descriptionText);

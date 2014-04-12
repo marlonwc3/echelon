@@ -73,20 +73,25 @@ function generateMatrix(n, m){
 
 
 
-function restartTable(id){
+function restartElement(id, el, callback){ // restart a element and preserve id and class
  
  
   var old = document.getElementById(id);
-  var aux = document.createElement('table');
+  var aux = document.createElement(el);
   aux.setAttribute('id', old.getAttribute('id'));
   aux.setAttribute('class', old.getAttribute('class'));
 
 
   old.parentNode.replaceChild(aux, old);
 
+  if(!isNaN(callback) && !(callback==undefined) && !(callback==null) && (typeof callback == "function")) callback();
+
 }
 
+function restartDiv(id){
+  var old = document.getElementById(id);
 
+}
 
 function htmlToString(objHtml){
 
@@ -165,7 +170,7 @@ $(document).ready(function() {
 
 
               steps.saveStep(matrix, "We've done this matrix :) ");
-              restartTable('matrixResultsHolder'); // erase all old results
+              restartElement('matrixResultsHolder', 'table'); // erase all old results
 
               console.log(matrix)
               tableMatrix = htmlMatrix(matrix);
@@ -181,16 +186,14 @@ $(document).ready(function() {
     $("#back").click(function(){
         $("#myContainerResults").fadeOut("fast", function(){
             $("#myContainer").fadeIn("fast", function(){
-                restartTable('matrixResultsHolder'); // erase all old results
-                steps.list = [];
+                restartElement('matrixResultsHolder', 'table'); // erase all old results
+                steps.restart();
             });
         });
     });
 
 
     $("#backIndex").click( function(){
-/*              restartTable('matrixResultsHolder'); // erase all old results
-      steps.list = [];*/
         $("#myContainer").fadeOut("fast", function(){
             $("#myIndexContainer").fadeIn("fast");
 
@@ -201,20 +204,24 @@ $(document).ready(function() {
 
     $("#stepByStep").click(function(){
         if(!runningStep ) {
+          var myStepsButton = document.getElementById('mySteps').firstElementChild;
+          console.log('stepButtons:' + myStepsButton);
+          $(myStepsButton).hide(); // shows when step-by-step its finished
+
           runningStep = true;
           $("#myContainerResults").fadeOut("slow", function(){
               
               $("#mySteps").fadeIn("slow", function(){
-
-
+                  
+                  console.log('steps size:' + steps.size);
                   for(var i = 0; i < steps.size; i++){
                       var el = steps.generateStepHtml(i);
-                      document.getElementById('mySteps').appendChild(el);
-                      
+                      myStepsButton.parentNode.insertBefore(el, myStepsButton); // insert all nodes before buttons div
+                  } 
+                  
+                  
 
-
-                  }
-
+                  $(myStepsButton).show(); // show button div
                   runningStep = false;
               });
           });
@@ -224,4 +231,38 @@ $(document).ready(function() {
     });
 
 
+    $("#backToResults").click(function(){
+
+          /*
+            Restart step-by-step table 
+          */
+          
+          //restart steps 
+          var holdButtons = document.getElementById('mySteps').lastElementChild; //
+          console.log('backToResults CLICKED, last elements:');
+          console.log(holdButtons);
+          restartElement('mySteps', 'div');
+          console.log('mySteps restarted:');
+
+          
+          
+      $("#mySteps").fadeOut("fast", function(){
+          document.getElementById('mySteps').appendChild(holdButtons);
+          console.log(document.getElementById('mySteps'));
+
+        $("#myContainerResults").fadeIn("fast", function(){
+
+
+        });
+
+      });
+
+    });
+
  });  
+
+
+function insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+}
+
