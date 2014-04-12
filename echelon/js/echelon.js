@@ -198,32 +198,6 @@ var generatePermutationMatrix = function(matrixA, matrixB){
        
 };
  
-//TEST ONE
-var matA = [1];
-var matB = [1,2];
-console.log(equalsMatrices(matA, matB));
-matB = [[1],[2]];
-console.log(equalsMatrices(matA, matB));
-matA = [[1,2],[3,4]];
-matB = [[2,3],[4,3]];
-console.log(equalsMatrices(matA, matB));
-matB = matA;
-console.log(equalsMatrices(matA, matB));
- 
-//TEST TWO
-console.log(multiplyMatrices(matA, matB));
- 
-//TEST THREE
-console.log(breakFactorDescription("Multiply row nºA per aprox K (where 1/matrix[i][j]) defines this factor", "tag"));
-console.log(breakFactorDescription("Subtract row nºA by aprox. K times row nº2 (where matrix[a][b]/matrix[c][d] defines this factor)", "marlon"));
- 
-//TEST FOUR
-matA = [[1,2,3],[3,2,1],[2,3,1]];
-matB = [[3,2,1],[2,3,1],[1,2,3]];
-console.log(generatePermutationMatrix(matA,matB));
-
-
-
 
 
 function echelonMatrix(matrix){ // get a echelon form of a matrix and return if a matrix is singular
