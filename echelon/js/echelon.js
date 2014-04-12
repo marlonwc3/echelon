@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 
-// Copyright (c) 2014 Marlon Reghert Alves dos Santos
+// Copyright (c) 2014 Marlon Reghert Alves dos Santos (mras)
 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in
@@ -25,12 +25,7 @@ var DIGITS = 5;
 // init matrix
 var matrix = [];
 
-for (var i = 0; i < n; i++) { // init matrix
-        matrix[i] = [];
-        for(var j = 0; j < m; j++){
-                matrix[i][j] = 0;
-        }
-};  
+
 
 var steps = new Steps(); // init step storage; // store all steps
 
@@ -53,9 +48,9 @@ function swapRow(matrix, a, b){ // swap row 'a' with 'b'
 
 
 
-function subRows(matrix, a, b, k){ // sub row 'b' of row 'a' by a factor K from matrix
+function subRows(matrix, a, b, k, info){ // sub row 'b' of row 'a' by a factor K from matrix
         if(k){
-            steps.saveStep(matrix, "Subtract row nº"+(b+1) + " by "+ k + " times row nº" + (a+1) ); // save this step
+            steps.saveStep(matrix, ("Subtract row nº"+(b+1) + " by aprox. "+ fixNumber(k,DIGITS) + " times row nº" + (a+1))+" " + info ); // save this step
             len = matrix[a].length;
             for (var i = 0; i < len; i++) {
                 matrix[b][i] = Math.abs( matrix[b][i] - k*matrix[a][i] ) <= EPS ? 0 : matrix[b][i] - k*matrix[a][i];
@@ -67,14 +62,13 @@ function subRows(matrix, a, b, k){ // sub row 'b' of row 'a' by a factor K from 
 }
 
 function multiplyRow(matrix, a, k, ceil){ // multiply row 'a' from matrix by a factor K, if ceil... the result will be ceiled
-       if(! (k==1) ) { 
-           steps.saveStep(matrix,"Multiply row nº"+(a+1) + " per " + k ) ;  // save this step
+
            for (var i = 0; i < matrix[a].length; i++)  {
                     matrix[a][i]*=k;
                     if(ceil && i==a ) matrix[a][i] = Math.ceil( matrix[a][i] ); 
                     matrix[a][i] = fixNumber(matrix[a][i], DIGITS);
             }
-        }
+        
 }
 
 function echelonMatrix(matrix){ // get a echelon form of a matrix and return if a matrix is singular
@@ -99,7 +93,8 @@ function echelonMatrix(matrix){ // get a echelon form of a matrix and return if 
                 // sub all rows
                 for(var j=i+1; j< matrix.length; j++){
                     factor = matrix[j][i]/pivot; 
-                    subRows(matrix, i, j, factor);   
+                    var info = "(where matrix["+(j+1)+"]["+(i+1)+"]/"+"matrix["+(i+1)+"]["+(i+1)+"] defines this factor)";
+                    subRows(matrix, i, j, factor,info);   
                 }
 
 
@@ -174,31 +169,46 @@ function reduceMatrix(matrix){
                                 break;
                         }
                 }
+
                 if(!pivot) continue;
+
                 for(var j = i-1; j >=0; j--){
                         var factor = matrix[j][pivotPos]/pivot;
-                        subRows(matrix, i, j, factor);
+                        var info = "(where matrix["+(j+1) +"]["+(pivotPos+1)+"]/matrix["+(i+1)+"]["+pivotPos+"]" + " defines this factor)";
+                        subRows(matrix, i, j, factor, info);
                 }
-                 multiplyRow(matrix, i, 1/pivot, true);
+                var k = 1/pivot;
+               if(! (k==1) ) { 
+                    steps.saveStep(matrix,"Multiply row nº"+(i+1) + " per aprox " + fixNumber(k,DIGITS) + " (where  1/matrix[" + (i+1)+  "]["+(pivotPos+1)+"]) defines this factor") ;  // save this step
+                    multiplyRow(matrix, i, k, true);
+                }
         }       
 }
 
 function getMatrix(){ //search on span whose id is "holdMatrix"
-        
-        var matrixInput = document.getElementById('holdMatrix');
-        var rows = matrixInput.getElementsByTagName('div');
-        
-        // get the matrix from inputs \/
-        for(var i = 0; i < n; i++){
-                var cols = rows[i].getElementsByTagName('input');
-                for(var j =0 ; j < m; j++) {
-                        if(cols[j].value !== "" ) matrix[i][j] = parseFloat(cols[j].value);
-                        //else matrix[i][j]=Math.floor(Math.random()*99999) ; // use to debug
-                        else matrix[i][j] = 0;
-                            
-                }
+      
+      for (var i = 0; i < n; i++) { // init matrix
+              matrix[i] = [];
+              for(var j = 0; j < m; j++){
+                      matrix[i][j] = 0;
+              }
+      };  
 
-        }
+    var matrixInput = document.getElementById('holdMatrix');
+    var rows = matrixInput.getElementsByTagName('div');
+    console.log('row:' + rows.size);
+    // get the matrix from inputs \/
+    for(var i = 0; i < n; i++){
+            var cols = rows[i].getElementsByTagName('input');
+            for(var j =0 ; j < m; j++) {
+
+                    if(cols[j].value !== "" ) matrix[i][j] = parseFloat(cols[j].value);
+                    //else matrix[i][j]=Math.floor(Math.random()*99999) ; // use to debug
+                    else matrix[i][j] = 0;
+                        
+            }
+
+    }
 }
 
 
@@ -231,8 +241,36 @@ function fixMatrix(matrix, digits){ // round all matrix[i][j] by the number of '
             }
 }
 
+function fixMatrixEchelon(matrix, lim){
+    /*
+        Check and verify if the echelon got some error
+        and if got, study if it's a EPS error or a powerful error
+    */
+    for(var i = 0; i < matrix.length; i++){
+        for(var j = 0; j < i && j  < matrix[i].length; j++){
+            if(matrix[i][j] != 0) {
+                if(matrix[i][j] <= lim && matrix[i][j] > 0) matrix[i][j] = 0;
+                else {
+                    return {
+                        fixed: false,
+                        i: i,
+                        j: j
+                    };
+                }
+            }
+        }
+    }
+    return {
+        fixed: true,
+        i: 0,
+        j: 0
+    };
+}
+
 
 function htmlMatrix(matrix){
+
+
 
     var htmlString = document.createElement('tbody');
     
@@ -252,6 +290,9 @@ function htmlMatrix(matrix){
 
 
 function Steps(){
+    /*
+        Entity that store all information about steps on operation
+    */
     this.list = [];
     this.actual = 0;
     this.size = 0;
@@ -279,6 +320,10 @@ function Steps(){
     }
 
     this.generateStepHtml = function(step){
+        //restartTable
+
+
+
         // get the matrix
         var matrix = this.list[step];
         var matrixHtml = matrix.matrixHtml;
@@ -350,84 +395,3 @@ function Steps(){
 }
 
 
-
-
-$(document).ready(function() {
-
-
-
-    // hide results and step pages
-    $("#myContainerResults").hide(); 
-    $("#mySteps").hide();
-
-
-
-    // set all button's events
-    $("#echelonButton").click(function(){          
-            getMatrix(); // get the matrix via html tags
-
-            echelonMatrix(matrix); 
-            
-            console.log("reduced: " + reduced);
-
-            if(reduced) reduceMatrix(matrix); 
-            
-
-            fixMatrix(matrix,DIGITS); // round results
-
-            steps.saveStep(matrix, "We've done this matrix :) ");
-
-            tableMatrix = htmlMatrix(matrix);
-            document.getElementById('matrixResultsHolder').appendChild(tableMatrix);
-
-            $("#myContainer").fadeOut("fast", function(){
-                $("#myContainerResults").fadeIn("fast");
-            }); 
-    });    
-
-    $("#back").click(function(){
-        $("#myContainerResults").fadeOut("fast", function(){
-            $("#myContainer").fadeIn("fast", function(){
-                restartTable('matrixResultsHolder'); // erase all old results
-                steps.list = [];
-            });
-        });
-    });
-
-
-    $("#backIndex").click( function(){
-        $("#myContainer").fadeOut("fast", function(){
-            window.location.href = "index.html";
-        });
-    });
-
-
-
-    $("#stepByStep").click(function(){
-
-        $("#myContainerResults").fadeOut("slow", function(){
-            
-            $("#mySteps").fadeIn("slow", function(){
-
-                console.log(steps.size);
-
-                for(var i = 0; i < steps.size; i++){
-                    var el = steps.generateStepHtml(i);
-                    document.getElementById('mySteps').appendChild(el);
-                }
-
-
-            });
-        });
-    });
-
-
-
-/*    $("#backMatrix").click(function(){
-        $("#mySteps").fadeOut("fast", function(){
-            $("#myContainerResults").fadeIn("fast");
-        });
-    });
-    */
-    
- });  
