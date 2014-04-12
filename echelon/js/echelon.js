@@ -174,7 +174,7 @@ function reduceMatrix(matrix){
 
                 for(var j = i-1; j >=0; j--){
                         var factor = matrix[j][pivotPos]/pivot;
-                        var info = "(where matrix["+(j+1) +"]["+(pivotPos+1)+"]/matrix["+(i+1)+"]["+pivotPos+"]" + " defines this factor)";
+                        var info = "(where matrix["+(j+1) +"]["+(pivotPos+1)+"]/matrix["+(i+1)+"]["+(pivotPos+1)+"]" + " defines this factor)";
                         subRows(matrix, i, j, factor, info);
                 }
                 var k = 1/pivot;
