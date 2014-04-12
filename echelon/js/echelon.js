@@ -51,7 +51,11 @@ function swapRow(matrix, a, b){ // swap row 'a' with 'b'
 
 function subRows(matrix, a, b, k, info){ // sub row 'b' of row 'a' by a factor K from matrix
         if(k){
-            steps.saveStep(matrix, ("Subtract row nº"+(b+1) + " by aprox. "+ fixNumber(k,DIGITS) + " times row nº" + (a+1))+" " + info ); // save this step
+            var description = "Subtract row nº"+(b+1) + " by aprox. "+ fixNumber(k,DIGITS) + " times row nº" + (a+1) +" " + info;
+            description = breakFactorDescription(description, "strong");
+            console.log("Description (subRow) -->" + description);
+
+            steps.saveStep(matrix, description); // save this step
             len = matrix[a].length;
             for (var i = 0; i < len; i++) {
                 matrix[b][i] = Math.abs( matrix[b][i] - k*matrix[a][i] ) <= EPS ? 0 : matrix[b][i] - k*matrix[a][i];
@@ -308,7 +312,8 @@ function reduceMatrix(matrix){
                 }
                 var k = 1/pivot;
                if(! (k==1) ) { 
-                    steps.saveStep(matrix,"Multiply row nº"+(i+1) + " per aprox " + fixNumber(k,DIGITS) + " (where  1/matrix[" + (i+1)+  "]["+(pivotPos+1)+"]) defines this factor") ;  // save this step
+                    // save step and strong the factor
+                    steps.saveStep(matrix, breakFactorDescription("Multiply row nº"+(i+1) + " per aprox " + fixNumber(k,DIGITS) + " (where  1/matrix[" + (i+1)+  "]["+(pivotPos+1)+"] defines this factor)", "strong")) ;  // save this step
                     multiplyRow(matrix, i, k, true);
                 }
         }       
@@ -332,8 +337,8 @@ function getMatrix(){ //search on span whose id is "holdMatrix"
             for(var j =0 ; j < m; j++) {
 
                     if(cols[j].value !== "" ) matrix[i][j] = parseFloat(cols[j].value);
-                    //else matrix[i][j]=Math.floor(Math.random()*99999) ; // use to debug
-                    else matrix[i][j] = 0;
+                    else matrix[i][j]=Math.floor(Math.random()*99999) ; // use to debug
+                    //else matrix[i][j] = 0;
                         
             }
 
