@@ -29,6 +29,7 @@ var matrix = [];
 
 var steps = new Steps(); // init step storage; // store all steps
 
+
 function swapRow(matrix, a, b){ // swap row 'a' with 'b'
     if(a != b) {         
             steps.saveStep(matrix, "Swap row nº"+(a+1) + " with row nº" + (b+1)); // save this step
@@ -70,6 +71,160 @@ function multiplyRow(matrix, a, k, ceil){ // multiply row 'a' from matrix by a f
             }
         
 }
+
+/*
+You can assume that matrixA and matrixB both consist of a 'array of arrays'
+Compare whether two matrices are equals
+in other words, check:
+if they have same dimensions:
+ 
+if matrixA is 'n by m' and matrixB is 'w by z'
+then: n==w and and m==z
+if all elements are equals:
+matrixA[i][j] == matrixB[i][j]
+return:
+true: matrixA == matrixB
+false: otherwise
+function equalsMatrices(matrixA, matrixB)
+*/
+ 
+var equalsMatrices = function(matrixA, matrixB){
+       
+        var n = matrixA.length;
+        var m = matrixA[0].length;
+        var w = matrixB.length;
+        var z = matrixB[0].length;
+        if(n != w || m != z) return false;
+        for(var i = 0; i < n; i++){
+                for(var j = 0; j < m; j++){
+                        if(matrixA[i][j] != matrixB[i][j]) return false;
+                }
+        }
+        return true;
+       
+};
+ 
+/*
+return matrixA times matrixB
+you can assume that:
+if matrixA is 'n by m' and matrixB is 'w by z'
+then: m==w
+function multiplyMatrices(matrixA, matrixB)*/
+ 
+var multiplyMatrices = function(matrixA, matrixB){
+       
+        var n = matrixA.length;
+        var m = matrixB.length;
+        var z = matrixB[0].length;
+        var matrixF = [];
+       
+        for(var i = 0; i < n; i++){
+                matrixF.push([]);
+                for(var j = 0; j < z; j++){
+                        var result = 0;
+                        for(var k = 0; k < m; k++){
+                                result += matrixA[i][k] * matrixB[k][j];
+                        }
+                        matrixF[i].push(result);
+                }              
+        }
+        return matrixF;
+       
+};
+ 
+/*
+If given a string in this format:
+"Subtract row nºA by aprox. K times row nº2 (where matrix[a][b]/matrix[c][d] defines this factor)"
+then you must return a string in this format:
+"Subtract row nºA by aprox. W times row nº2 (where matrix[a][b]/matrix[c][d] defines this factor)"
+ 
+Or, if given a string in this format:
+"Multiply row nºA per aprox K (where 1/matrix[i][j]) defines this factor"
+then you must return a strin in this format:
+"Multiply row nºA per aprox K (where 1/matrix[i][j]) defines this factor"
+ 
+Assume that 'tag' parameter and 'description' paremeter are string's.
+So you put the 'K' number at 'description' between 'tag' parameter'
+function breakFactorDescription(description, tag)*/
+ 
+var breakFactorDescription = function(description, tag){
+        if(description.indexOf("Subtract") != -1){
+                var sub1 = description.substring(0, description.indexOf("x")+2);
+                var sub2 = description.substring(description.indexOf("x")+2, description.indexOf("times"));
+                var sub3 = description.substring(description.indexOf("times"), description.length);
+                var tot = sub1 + "<" + tag + ">" + sub2 + "</" + tag + ">" + sub3;
+                return tot;
+        }else{
+                var sub1 = description.substring(0, description.indexOf("x")+2);
+                var sub2 = description.substring(description.indexOf("x")+2, description.indexOf("(where"));
+                var sub3 = description.substring(description.indexOf("(where"), description.length);
+                var tot = sub1 + "<" + tag + ">" + sub2 + "</" + tag + ">" + sub3;
+                return tot;
+        }
+}
+ 
+var generatePermutationMatrix = function(matrixA, matrixB){
+       
+        var actualLines = [];
+        var n = matrixA.length;
+        for(var i = 0; i < n; i++){
+                for(var j = 0; j < n; j++){
+                        var bool = true;
+                        for(var k = 0; k < n; k++){
+                                if(matrixA[i][k] != matrixB[j][k]){
+                                        bool = false;
+                                }
+                        }
+                        if(bool){
+                                actualLines.push(j);
+                        }
+                }
+        }
+       
+        var matrixP = [];
+       
+        for(var i = 0; i < n; i++){
+                matrixP.push([]);
+                for(var j = 0; j < n; j++){
+                        if(j == actualLines[i]){
+                                matrixP[i].push(1);
+                        }else{
+                                matrixP[i].push(0);
+                        }
+                }
+        }
+       
+        return matrixP;
+       
+};
+ 
+//TEST ONE
+var matA = [1];
+var matB = [1,2];
+console.log(equalsMatrices(matA, matB));
+matB = [[1],[2]];
+console.log(equalsMatrices(matA, matB));
+matA = [[1,2],[3,4]];
+matB = [[2,3],[4,3]];
+console.log(equalsMatrices(matA, matB));
+matB = matA;
+console.log(equalsMatrices(matA, matB));
+ 
+//TEST TWO
+console.log(multiplyMatrices(matA, matB));
+ 
+//TEST THREE
+console.log(breakFactorDescription("Multiply row nºA per aprox K (where 1/matrix[i][j]) defines this factor", "tag"));
+console.log(breakFactorDescription("Subtract row nºA by aprox. K times row nº2 (where matrix[a][b]/matrix[c][d] defines this factor)", "marlon"));
+ 
+//TEST FOUR
+matA = [[1,2,3],[3,2,1],[2,3,1]];
+matB = [[3,2,1],[2,3,1],[1,2,3]];
+console.log(generatePermutationMatrix(matA,matB));
+
+
+
+
 
 function echelonMatrix(matrix){ // get a echelon form of a matrix and return if a matrix is singular
         var singular = false; 
@@ -296,7 +451,7 @@ function Steps(){
     this.list = [];
     this.actual = 0;
     this.size = 0;
-    
+
 
     this.restart = function() {
         this.list = [];
