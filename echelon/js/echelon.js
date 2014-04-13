@@ -529,10 +529,6 @@ function Steps(){
         row.appendChild(col);
         container.appendChild(row);
 
-
-        // Faz com que o MathJax processe o LaTeX do elemento
-        MathJax.Hub.Typeset(table);
-
         return container;
     }
 

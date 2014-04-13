@@ -225,6 +225,7 @@ $(document).ready(function() {
                   
 
                   $(myStepsButton).show(); // show button div
+                  MathJax.Hub.Typeset()
                   runningStep = false;
               });
           });
