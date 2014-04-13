@@ -491,7 +491,7 @@ function Steps(){
         divResponsive.setAttribute('class', 'table-responsive');
 
         var table = document.createElement('table');
-        table.setAttribute('class', 'table table-bordered');
+        table.setAttribute('class', 'table');
         table.setAttribute('id', 'matrixStepsHolder');
 
 
