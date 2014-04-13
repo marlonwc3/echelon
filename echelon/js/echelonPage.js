@@ -175,7 +175,10 @@ $(document).ready(function() {
               console.log(matrix)
               tableMatrix = htmlMatrix(matrix);
 
-              document.getElementById('matrixResultsHolder').appendChild(tableMatrix);
+              $('#matrixResultsHolder').append(tableMatrix);
+
+              // Faz com que o MathJax processe o LaTeX do elemento
+              MathJax.Hub.Typeset('matrixResultsHolder');
 
               $("#myContainer").fadeOut("fast", function(){
                   $("#myContainerResults").fadeIn("fast");

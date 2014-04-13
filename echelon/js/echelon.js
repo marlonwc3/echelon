@@ -514,7 +514,7 @@ function Steps(){
 
 
         //append child's from container
-        table.appendChild(matrixHtml);
+        table.innerHTML = matrixHtml;
         divResponsive.appendChild(table);
         
         // apend child's from description
@@ -530,7 +530,8 @@ function Steps(){
         container.appendChild(row);
 
 
-
+        // Faz com que o MathJax processe o LaTeX do elemento
+        MathJax.Hub.Typeset(table);
 
         return container;
     }
