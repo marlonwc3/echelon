@@ -404,21 +404,19 @@ function fixMatrixEchelon(matrix, lim){
 
 function htmlMatrix(matrix){
 
-
-
-    var htmlString = document.createElement('tbody');
+    var str = '\\begin{bmatrix}';
     
     for(var i = 0; i < matrix.length; i++){
-        var row = document.createElement('tr');
+       
         for(var j = 0; j < matrix[i].length; j++){
-            var cell = document.createElement('td');
-            cell.innerHTML = matrix[i][j];
-            row.appendChild(cell);
+            str += matrix[i][j] + ' & ';
         }
-        htmlString.appendChild(row);
+        str += ' \\\\ \\\\  ';
     }
 
-    return htmlString;
+    str += '\\end{bmatrix}';
+
+    return str;
 }
 
 
