@@ -130,7 +130,9 @@ $(document).ready(function() {
         $("#myContainer").ready(function(){
           //var width = $("input.form-control:number").css('width');
           var width = parseInt($("input.form-control").css('width'));
-          document.getElementById('myContainer').style.minWidth = width*m;
+          document.getElementById('myContainer').style.minWidth = (width*m)+"px";
+          //document.getElementById('myContainer').style.marginTop += "90px";
+
           $("#myContainer").fadeIn("fast");
         });
 
@@ -192,6 +194,9 @@ $(document).ready(function() {
               matrixResultsHolder.style.width = maxLenght;
               console.log('width-style-resultsHolder:');
               console.log(matrixResultsHolder.style);
+
+              
+        
 
               //document.getElementById('myContainer').style.minWidth = width*m; ,udar aqui
               $("#myContainer").fadeOut("fast", function(){

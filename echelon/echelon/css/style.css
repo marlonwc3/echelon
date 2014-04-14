@@ -163,8 +163,11 @@ input[type="number"] {
 
 
 #navBarContainer {
-    margin-bottom: 62px;
+    /*margin-bottom: 62px;*/
 }
+
+
+
 
 #strangInfo {
         -webkit-transform: translateX(-1px) translateY(68px) rotate(-17deg);
@@ -186,4 +189,12 @@ input[type="number"] {
 
 #holdResultsButtons {
   margin-top: 25px;
+}
+
+#myContainer, #myIndexWell, #myContainerResults, #mySteps {
+  margin-top: 45px;
+}
+
+ #myTittle {
+  font-size: 20px;
 }
