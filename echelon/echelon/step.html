@@ -1,0 +1,44 @@
+
+<html>
+    <head>
+        <title>Demo</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="bootsrap/js/bootstrap.js">
+        <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+        <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+        <script src="js/jquery.steps.js"></script>
+
+
+
+    </head>
+    <body>
+
+
+
+
+    <script>
+/*        $("#wizard").steps( {
+            // Disables the finish button (required if pagination is enabled)
+            enableFinishButton: false, 
+            // Disables the next and previous buttons (optional)
+            enablePagination: false, 
+            // Enables all steps from the begining
+            enableAllSteps: true, 
+            // Removes the number from the title
+            titleTemplate: "#title#" 
+
+
+        });*/
+
+            $("#wizard").steps({
+                headerTag: "h3",
+                bodyTag: "section",
+                transitionEffect: "slideLeft",
+                autoFocus: true
+            });
+
+    </script>
+    </body>
+</html>
+
