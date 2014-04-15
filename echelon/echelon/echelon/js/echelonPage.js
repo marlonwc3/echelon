@@ -130,7 +130,9 @@ $(document).ready(function() {
         $("#myContainer").ready(function(){
           //var width = $("input.form-control:number").css('width');
           var width = parseInt($("input.form-control").css('width'));
-          document.getElementById('myContainer').style.minWidth = width*m;
+          document.getElementById('myContainer').style.minWidth = (width*m)+"px";
+          //document.getElementById('myContainer').style.marginTop += "90px";
+
           $("#myContainer").fadeIn("fast");
         });
 
@@ -159,6 +161,9 @@ $(document).ready(function() {
 
             fixMatrix(matrix,DIGITS); // round results
 
+
+            var maxLenght = (""+findMaxElement(matrix)).length;
+
             var resultFix = fixMatrixEchelon(matrix, 0.0001);
             //alert(resultFix.fixed);
             if(!resultFix.fixed ) { // alert about bug
@@ -172,11 +177,28 @@ $(document).ready(function() {
               steps.saveStep(matrix, "We've done this matrix :) ");
               restartElement('matrixResultsHolder', 'table'); // erase all old results
 
-              console.log(matrix)
-              tableMatrix = htmlMatrix(matrix);
 
-              document.getElementById('matrixResultsHolder').appendChild(tableMatrix);
 
+              
+              tableMatrix = htmlMatrix(matrix, 20);
+
+              var matrixResultsHolder = document.getElementById('matrixResultsHolder');
+              
+              console.log("Table Matrix:");
+              console.log(tableMatrix);
+
+              matrixResultsHolder.appendChild(tableMatrix);
+
+              maxLenght = ((m*maxLenght)+5) +"px" ;
+              console.log("maxLenght:"  + maxLenght);
+              matrixResultsHolder.style.width = maxLenght;
+              console.log('width-style-resultsHolder:');
+              console.log(matrixResultsHolder.style);
+
+              
+        
+
+              //document.getElementById('myContainer').style.minWidth = width*m; ,udar aqui
               $("#myContainer").fadeOut("fast", function(){
                   $("#myContainerResults").fadeIn("fast");
               }); 
@@ -204,7 +226,8 @@ $(document).ready(function() {
 
     $("#stepByStep").click(function(){
         if(!runningStep ) {
-          var myStepsButton = document.getElementById('mySteps').firstElementChild;
+          var mySteps = document.getElementById('mySteps');
+          var myStepsButton = mySteps.firstElementChild;
           console.log('stepButtons:' + myStepsButton);
           $(myStepsButton).hide(); // shows when step-by-step its finished
 
@@ -214,8 +237,16 @@ $(document).ready(function() {
               $("#mySteps").fadeIn("slow", function(){
                   
                   console.log('steps size:' + steps.size);
+                  var el;
                   for(var i = 0; i < steps.size; i++){
-                      var el = steps.generateStepHtml(i);
+                      el = steps.generateStepHtml(i);
+
+                      col = el.getElementsByTagName('div');
+                      console.log(col);
+
+
+
+
                       myStepsButton.parentNode.insertBefore(el, myStepsButton); // insert all nodes before buttons div
                   } 
                   

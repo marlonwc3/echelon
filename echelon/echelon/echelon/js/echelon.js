@@ -337,8 +337,8 @@ function getMatrix(){ //search on span whose id is "holdMatrix"
             for(var j =0 ; j < m; j++) {
 
                     if(cols[j].value !== "" ) matrix[i][j] = parseFloat(cols[j].value);
-                    else matrix[i][j]=Math.floor(Math.random()*99999) ; // use to debug
-                    //else matrix[i][j] = 0;
+                    //else matrix[i][j]=Math.floor(Math.random()*99999) ; // use to debug
+                    else matrix[i][j] = 0;
                         
             }
 
@@ -402,7 +402,7 @@ function fixMatrixEchelon(matrix, lim){
 }
 
 
-function htmlMatrix(matrix){
+function htmlMatrix(matrix, width){
 
 
 
@@ -412,6 +412,9 @@ function htmlMatrix(matrix){
         var row = document.createElement('tr');
         for(var j = 0; j < matrix[i].length; j++){
             var cell = document.createElement('td');
+
+            if(!isNaN(width) && width != undefined && width != null && width > 0) cell.style.width = width;
+
             cell.innerHTML = matrix[i][j];
             row.appendChild(cell);
         }
@@ -421,6 +424,12 @@ function htmlMatrix(matrix){
     return htmlString;
 }
 
+
+function findMaxElement(matrix){
+    var maxElement = 0;
+    for(var i = 0; i < matrix.length; i++) for(var j = 0; j < matrix[i].length; j++) maxElement = Math.max(maxElement, matrix[i][j]);
+    return maxElement;
+}
 
 
 function Steps(){
@@ -441,10 +450,14 @@ function Steps(){
     this.saveStep = function(matrix, description){
         //alertMatrix(matrix);
         console.log('Description dada:' + description);
+
+        maxLength = findMaxElement(matrix).toString().length;
+        console.log("maxLength: " +  maxLength);
         this.list[this.list.length] = {
             matrix: matrix,
             description: description,
-            matrixHtml: htmlMatrix(matrix)
+            matrixHtml: htmlMatrix(matrix, maxLength),
+            maxLength: maxLength
         };
         this.size++;
     }
