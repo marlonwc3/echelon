@@ -17,12 +17,28 @@ body.modal-open #wrap{
   src: url("fonts/OpenSans-Light.ttf");
 }
 
+@font-face {
+  font-family: "icmcsc10";
+  src: url("fonts/icmcsc10.tmf");
+}
+
 p, h1, h2, h3, h4, a, .control-label , #indexGo, #enter, #echelonButton, #backIndex, #stepByStep, #back, #descriptionStep, #stepNumber, #thanksQuote, .modal-body, .modal-title{
   font-family: OpenSans-Light;
   font-weight: lighter;
   /*é bold, bolder, light, normal, */
 }
 
+#devBy {
+  font-size: 19px;
+  font-weight: bold ;
+}
+#colaborators {
+  font-size: 12px;
+}
+
+.form-group #selectbasic, #myContainer {
+  font-weight: lighter;
+}
 
 
 #thanksQuote {
@@ -39,6 +55,7 @@ input[type="number"] {
 }
 
 #matrixResultsHolder {
+    font-family: icmcsc10;
     margin: 0 auto;
     border-width: 0px;
 }
@@ -200,7 +217,7 @@ input[type="number"] {
     left: -2px;
     bottom: -2px;
     width: 17px;
-    border: 4px solid #333;
+    border: 2px solid #5c5c5c;
     border-right:none;
     z-index:1;
 }
@@ -211,7 +228,7 @@ input[type="number"] {
     right: -2px;
     bottom:-2px;
     width: 17px;
-    border: 4px solid #333;
+    border: 2px solid #5c5c5c;
     border-left:none;
     z-index:1;
 }
