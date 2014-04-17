@@ -38,8 +38,9 @@ input[type="number"] {
     text-align: center;
 }
 
-#matrixResultsHolde {
+#matrixResultsHolder {
     margin: 0 auto;
+    border-width: 0px;
 }
 
 .results {
@@ -183,3 +184,9 @@ input[type="number"] {
   
   margin-bottom: 20px;
 }
+
+
+.table-bordered > tbody > tr > td {
+  border-width: 0px;
+}
+
