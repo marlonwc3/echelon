@@ -26,5 +26,9 @@ matA = [[1,2,3],[3,2,1],[2,3,1]];
 matB = [[3,2,1],[2,3,1],[1,2,3]];
 console.log(generatePermutationMatrix(matA,matB));
 
+matA = [[1,2,3], [413,5.12,6.0], [234.123, 99, -1]];
+
+console.log("Test 5, expected: " + 234.123.toString().length);
+console.log("Result: " + getMaxELementLength(matA));
 
 

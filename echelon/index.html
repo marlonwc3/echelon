@@ -25,7 +25,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">Matrix echelon & reduced form (Beta Version) </a>
+        <a class="navbar-brand" href="index.html" id="navBarTitle"><strong>Matrix echelon & reduced form<strong></a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
@@ -199,18 +199,18 @@
 
 
   <div class="container" id="myContainerResults">
-    
+      <div class="container" id="resultsHeader">
         <h1>Be happy (:</h1>
         <p style="opacity: 0.5;">
           Obs: All decimal numbers are rounded by 5 digits and we use a EPS equals 10e-8
           <p style="opacity: 0.5; font-size: 12px;">If you have found a bug, just stay calm and call the fire department</p>
         </p>
-
+      </div>
 
         <div class="row centered">
           <div class="col-xs-12">
             <div class="table-responsive" id="resultsResponsive">
-              <table class="table table-bordered" id="matrixResultsHolder">
+              <table class="box table table-bordered" id="matrixResultsHolder">
 
 
               </table>
@@ -223,14 +223,15 @@
         </div>
 
 
-        <button class="btn btn-info"  role="button" id="stepByStep">Step-by-step
-        </button>
+        <!-- Buttons container  -->
+        <div class="container" id="holdButtons">
+          <button class="btn btn-info"  role="button" id="stepByStep">Step-by-step
+          </button>
+          <button class="btn  btn-primary"  role="button" id="back">Go back
+          </button>
+        </div>
 
-        <button class="btn  btn-primary"  role="button" id="back">Go back
-          
-        </button>
-
-        <br><br>
+  
         <blockquote id="thanksQuote" style="border-left: none;"> Thank's for using our app.</blockquote>
     
 
