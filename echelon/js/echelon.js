@@ -22,7 +22,7 @@
 
 var EPS = Math.pow(10, -8); // EPS constant for float numbers
 var DIGITS = 5;
-// init matrix
+// initial matrix
 var matrix = [];
 var matrixL = [];
 var matrixU = [];
@@ -32,8 +32,7 @@ var matrixP = [];
 
 
 var steps = new Steps(); // init step storage; // store all steps
-
-
+var stepsL = new Steps();
 function swapRow(matrix, a, b) { // swap row 'a' with 'b'
     if (a != b) {
         steps.saveStep(matrix, "Swap row nº" + (a + 1) + " with row nº" + (b + 1)); // save this step
@@ -57,8 +56,6 @@ function subRows(matrix, a, b, k, info) { // sub row 'b' of row 'a' by a factor 
     if (k) {
         var description = "Subtract row nº" + (b + 1) + " by aprox. " + fixNumber(k, DIGITS) + " times row nº" + (a + 1) + " " + info;
         description = breakFactorDescription(description, "strong");
-        console.log("Description (subRow) -->" + description);
-
         steps.saveStep(matrix, description); // save this step
         len = matrix[a].length;
         for (var i = 0; i < len; i++) {
@@ -155,21 +152,6 @@ Assume that 'tag' parameter and 'description' paremeter are string's.
 So you put the 'K' number at 'description' between 'tag' parameter'
 function breakFactorDescription(description, tag)*/
 
-var breakFactorDescription = function(description, tag) {
-    if (description.indexOf("Subtract") != -1) {
-        var sub1 = description.substring(0, description.indexOf("x") + 2);
-        var sub2 = description.substring(description.indexOf("x") + 2, description.indexOf("times"));
-        var sub3 = description.substring(description.indexOf("times"), description.length);
-        var tot = sub1 + "<" + tag + ">" + sub2 + "</" + tag + ">" + sub3;
-        return tot;
-    } else {
-        var sub1 = description.substring(0, description.indexOf("x") + 2);
-        var sub2 = description.substring(description.indexOf("x") + 2, description.indexOf("(where"));
-        var sub3 = description.substring(description.indexOf("(where"), description.length);
-        var tot = sub1 + "<" + tag + ">" + sub2 + "</" + tag + ">" + sub3;
-        return tot;
-    }
-}
 
 var generatePermutationMatrix = function(matrixA, matrixB) {
 
@@ -235,27 +217,24 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
         var pivot = matrix[i][i];
         // sub all rows
         for (var j = i + 1; j < matrix.length; j++) {
-            factor = matrix[j][i] / pivot;
+            factor = (matrix[j][i] / pivot);
             var info = "(where matrix[" + (j + 1) + "][" + (i + 1) + "]/" + "matrix[" + (i + 1) + "][" + (i + 1) + "] defines this factor)";
             subRows(matrix, i, j, factor, info);
+            matrixL[j][i] = factor;
+            stepsL.saveStep(matrixL, "Put "+factor+" at matrix["+j+"]["+i+"].");
         }
 
 
     }
 
-    swapRowsNulls(matrix);
 
+    logMatrix(matrixL);
+
+    swapRowsNulls(matrix);
     return singular;
 }
 
-function alertMatrix(matrix) {
-    var s = "";
-    for (var i = 0; i < matrix.length; i++) {
-        for (var j = 0; j < matrix[i].length; j++) s += matrix[i][j] + " ";
-        s += "\n";
-    }
-    alert(s); // use this function to alert a matrix (use to debug)
-}
+
 
 function findPivotReduce(matrix, a) { // find the pivot for the reduce method of a matrix on row 'a'
     var pivot = 0;
@@ -283,7 +262,6 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
                 if (j > matrix[i].length || found) break;
                 for (var k = i; k < matrix.length && !found; k++) { // for each line
                     if (matrix[k][j]) {
-
                         swapRow(matrix, i, k);
                         found = true;
                     }
@@ -331,35 +309,6 @@ function reduceMatrix(matrix) {
 }
 
 
-
-
-function getMatrix() { //search on span whose id is "holdMatrix"
-
-    for (var i = 0; i < n; i++) { // init matrix
-        matrix[i] = [];
-        for (var j = 0; j < m; j++) {
-            matrix[i][j] = 0;
-        }
-    };
-
-    var matrixInput = document.getElementById('holdMatrix');
-    var rows = matrixInput.getElementsByTagName('div');
-    console.log('row:' + rows.size);
-    // get the matrix from inputs \/
-    for (var i = 0; i < n; i++) {
-        var cols = rows[i].getElementsByTagName('input');
-        for (var j = 0; j < m; j++) {
-
-            if (cols[j].value !== "") matrix[i][j] = parseFloat(cols[j].value);
-            else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
-            //else matrix[i][j] = 0;
-
-        }
-
-    }
-}
-
-
 function check(matrix) { //check if has some term (i,j) that is NaN or undefined
     for (var i = 0; i < matrix.length; i++) {
         for (var j = 0; j < matrix[i].length; j++) {
@@ -398,7 +347,7 @@ function fixMatrixEchelon(matrix, lim) {
         for (var j = 0; j < i && j < matrix[i].length; j++) {
             if (matrix[i][j] != 0) {
                 if (matrix[i][j] <= lim && matrix[i][j] > 0) matrix[i][j] = 0;
-                else {
+                else {                                                          
                     return {
                         fixed: false,
                         i: i,
@@ -464,7 +413,6 @@ function Steps() {
 
     this.saveStep = function(matrix, description) {
         //alertMatrix(matrix);
-        console.log('Description dada:' + description);
         this.list[this.list.length] = {
             matrix: matrix,
             description: description,
@@ -499,7 +447,6 @@ function Steps() {
         var matrixHtml = matrix.matrixHtml;
 
         var descriptionText = matrix.description;
-        console.log('dstext:' + descriptionText);
 
 
         // create all elements nescessary 
@@ -551,7 +498,6 @@ function Steps() {
         // apend child's from description
         containerDescr.appendChild(title);
         containerDescr.appendChild(description);
-        console.log(description);
 
         container.appendChild(containerDescr);
 

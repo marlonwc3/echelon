@@ -23,7 +23,7 @@
 
 /*
 
-var n=window.localStorage.getItem('n');
+var n=window.localStorage.getItem('(n');
 var m=window.localStorage.getItem('m');
 var reduced = window.localStorage.getItem('reduced') === 'true';
 
@@ -33,26 +33,30 @@ var n = 0,
   reduced = false;
 var runningStep = false; // prevent two clicks on step-by-step button
 
+function getMatrix() { //search on span whose id is "holdMatrix"
 
-function restartMatrixs(matrixArray){
-
-    for(var i = 0; i < matrixArray.length; i++){
-      matrixCurr = matrixArray[i];
-      for(var j =0 ; j < n; j++){
-        matrixCurr.push([]);
-        for(var k =0; k<m; k++){
-          matrixCurr[j].push([]);
+    for (var i = 0; i < n; i++) { // init matrix
+        matrix[i] = [];
+        for (var j = 0; j < m; j++) {
+            matrix[i][j] = 0;
         }
-      }
+    };
 
+    var matrixInput = document.getElementById('holdMatrix');
+    var rows = matrixInput.getElementsByTagName('div');
+    // get the matrix from inputs \/
+    for (var i = 0; i < n; i++) {
+        var cols = rows[i].getElementsByTagName('input');
+        for (var j = 0; j < m; j++) {
 
+            if (cols[j].value !== "") matrix[i][j] = parseFloat(cols[j].value);
+            //else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
+            else matrix[i][j] = 0;
+
+        }
 
     }
-
-
-
 }
-
 
 function generateMatrix(n, m) {
   /*
@@ -65,7 +69,6 @@ function generateMatrix(n, m) {
       </div>  */
 
 
-  console.log('generate---> n:' + n + ' m:' + m);
 
   //restart this span
   var oldHoldMatrix = document.getElementById('holdMatrix');
@@ -141,7 +144,6 @@ $(document).ready(function() {
     n = select[0].options[select[0].selectedIndex].text;
     m = select[1].options[select[1].selectedIndex].text;
     reduced = document.getElementById('checkboxes-0').checked;
-    console.log('indexGo click---> n:' + n + ' m:' + m + ' reduced:' + reduced);
 
     //restart the amtrix
 
@@ -166,14 +168,26 @@ $(document).ready(function() {
   // set all button's events
   $("#echelonButton").click(function() {
     // restart matrix
+    matrix = [];
+    for (var i = 0; i < n; i++) {
+      matrix.push([]);
+      for (var j = 0; j < m; j++) {
+        matrix[i].push([]);
+      }
+    }
 
-    restartMatrixs([matrix, matrixP, matrixL, matrixU]);
+    matrixL = [];
+    for (var i = 0; i < n; i++) {
+      matrixL.push([]);
+      for (var j = 0; j < m; j++) {
+        matrixL[i][j] =   (i==j) ? 1 : 0;
+      }
+    }
 
     getMatrix(); // get the matrix via html tags
 
     echelonMatrix(matrix);
 
-    console.log("reduced: " + reduced);
 
     if (reduced) reduceMatrix(matrix);
 
@@ -183,8 +197,10 @@ $(document).ready(function() {
     var resultFix = fixMatrixEchelon(matrix, 0.0001);
     //alert(resultFix.fixed);
     if (!resultFix.fixed) { // alert about bug
-      console.log("Not fixed at:" + resultFix.i + ' ' + resultFix.j);
-      alert('Bad inputs, are you trying tu bug my code? Change your inputs.');
+      console.log("Not fixed at:" + resultFix.i + ' ' + resultFix.j + '  m:'+m+' n:'+n);
+      console.log("Matrix:");
+      console.log(matrix);
+      alert('Bad inputs, are you trying to bug my code? Change your inputs.');
     } else {
 
 
@@ -192,7 +208,7 @@ $(document).ready(function() {
       steps.saveStep(matrix, "We've done this matrix, just " + (steps.size+1) + (steps.size > 1 ? ' steps':' step' ) + "."  );
       restartElement('matrixResultsHolder', 'table'); // erase all old results
 
-      console.log(matrix)
+
       tableMatrix = htmlMatrix(matrix);
       matrixResultsHolder = document.getElementById('matrixResultsHolder');
       matrixResultsHolder.appendChild(tableMatrix);
@@ -209,6 +225,8 @@ $(document).ready(function() {
       $("#myContainer").fadeIn("fast", function() {
         restartElement('matrixResultsHolder', 'table'); // erase all old results
         steps.restart();
+
+
       });
     });
   });
@@ -226,7 +244,6 @@ $(document).ready(function() {
   $("#stepByStep").click(function() {
     if (!runningStep) {
       var myStepsButton = document.getElementById('mySteps').firstElementChild;
-      console.log('stepButtons:' + myStepsButton);
       $(myStepsButton).hide(); // shows when step-by-step its finished
 
       runningStep = true;
@@ -234,7 +251,6 @@ $(document).ready(function() {
 
         $("#mySteps").fadeIn("slow", function() {
 
-          console.log('steps size:' + steps.size);
           for (var i = 0; i < steps.size; i++) {
             var el = steps.generateStepHtml(i);
             myStepsButton.parentNode.insertBefore(el, myStepsButton); // insert all nodes before buttons div
@@ -259,16 +275,12 @@ $(document).ready(function() {
 
     //restart steps 
     var holdButtons = document.getElementById('mySteps').lastElementChild; //
-    console.log('backToResults CLICKED, last elements:');
-    console.log(holdButtons);
     restartElement('mySteps', 'div');
-    console.log('mySteps restarted:');
 
 
 
     $("#mySteps").fadeOut("fast", function() {
       document.getElementById('mySteps').appendChild(holdButtons);
-      console.log(document.getElementById('mySteps'));
 
       $("#myContainerResults").fadeIn("fast", function() {
 
