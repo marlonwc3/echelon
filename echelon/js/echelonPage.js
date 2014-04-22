@@ -34,6 +34,25 @@ var n = 0,
 var runningStep = false; // prevent two clicks on step-by-step button
 
 
+function restartMatrixs(matrixArray){
+
+    for(var i = 0; i < matrixArray.length; i++){
+      matrixCurr = matrixArray[i];
+      for(var j =0 ; j < n; j++){
+        matrixCurr.push([]);
+        for(var k =0; k<m; k++){
+          matrixCurr[j].push([]);
+        }
+      }
+
+
+
+    }
+
+
+
+}
+
 
 function generateMatrix(n, m) {
   /*
@@ -147,13 +166,9 @@ $(document).ready(function() {
   // set all button's events
   $("#echelonButton").click(function() {
     // restart matrix
-    matrix = [];
-    for (var i = 0; i < n; i++) {
-      matrix.push([]);
-      for (var j = 0; j < m; j++) {
-        matrix[i].push([]);
-      }
-    }
+
+    restartMatrixs([matrix, matrixP, matrixL, matrixU]);
+
     getMatrix(); // get the matrix via html tags
 
     echelonMatrix(matrix);

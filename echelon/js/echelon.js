@@ -24,6 +24,10 @@ var EPS = Math.pow(10, -8); // EPS constant for float numbers
 var DIGITS = 5;
 // init matrix
 var matrix = [];
+var matrixL = [];
+var matrixU = [];
+var matrixP = [];
+
 
 
 
@@ -326,6 +330,9 @@ function reduceMatrix(matrix) {
     }
 }
 
+
+
+
 function getMatrix() { //search on span whose id is "holdMatrix"
 
     for (var i = 0; i < n; i++) { // init matrix
@@ -344,8 +351,8 @@ function getMatrix() { //search on span whose id is "holdMatrix"
         for (var j = 0; j < m; j++) {
 
             if (cols[j].value !== "") matrix[i][j] = parseFloat(cols[j].value);
-            //else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
-            else matrix[i][j] = 0;
+            else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
+            //else matrix[i][j] = 0;
 
         }
 
@@ -508,7 +515,7 @@ function Steps() {
         col.setAttribute('class', 'col-xs-12');
 
         var divResponsive = document.createElement('div');
-        divResponsive.setAttribute('class', 'table-responsive');
+/*        divResponsive.setAttribute('class', 'table-responsive');*/
         divResponsive.setAttribute('id', 'resultsResponsive');
 
         var table = document.createElement('table');
@@ -562,6 +569,4 @@ function Steps() {
 
         return container;
     }
-
-
 }
