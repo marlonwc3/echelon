@@ -21,7 +21,7 @@
 
 
 var EPS = Math.pow(10, -8); // EPS constant for float numbers
-var EPSLU = Math.pow(10, -4);
+var EPSLU = Math.pow(10, -4); // EPS for LU fixes
 var DIGITS = 5;
 // initial matrix
 var matrix = [];
@@ -223,7 +223,7 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
         // find a valid pivot
         if (!matrix[i][i]) {
             for (var j = i + 1; j < matrix.length; j++) {
-                if (matrix[j][i]) {
+                if (matrix[j][i] && i != j) {
                     steps.saveStep(matrix, "Swap row nº" + (i+ 1) + " with row nº" + (j+ 1)); // save this step
                     swapRow(matrix, i, j);
                     swapRow(matrixL, i, j, true);
@@ -304,7 +304,7 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
             while (!found) {
                 if (j > matrix[i].length || found) break;
                 for (var k = i; k < matrix.length && !found; k++) { // for each line
-                    if (matrix[k][j]) {
+                    if (matrix[k][j] && k!=j) {
                         steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (k + 1)); // save this step                        
                         swapRow(matrix, i, k);
                         found = true;
