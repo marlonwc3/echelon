@@ -39,7 +39,18 @@ function logMatrix(matrix){
 	console.log(s);
 }
 
-
+function cloneMatrix(matrix){
+    var n = matrix.length;
+    var m = matrix[0].length;
+    var newMatrix = [];
+    for(var i = 0; i < n; i++){
+        newMatrix[i]=[];
+        for(var j = 0; j < m; j++){
+            newMatrix[i].push(matrix[i][j]);
+        }
+    }
+    return newMatrix;
+}
 
 function initMatrix(matrix, n, m, idendity){
     var i, j;

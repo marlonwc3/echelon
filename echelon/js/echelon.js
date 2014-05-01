@@ -189,20 +189,20 @@ var generatePermutationMatrix = function(matrixA, matrixB) {
         }
     }
 
-    var matrixP = [];
+    var matrixPerm = [];
 
     for (var i = 0; i < n; i++) {
-        matrixP.push([]);
+        matrixPerm.push([]);
         for (var j = 0; j < n; j++) {
             if (j == actualLines[i]) {
-                matrixP[i].push(1);
+                matrixPerm[i].push(1);
             } else {
-                matrixP[i].push(0);
+                matrixPerm[i].push(0);
             }
         }
     }
 
-    return matrixP;
+    return matrixPerm;
 
 };
 
@@ -210,7 +210,7 @@ var generatePermutationMatrix = function(matrixA, matrixB) {
 
 function echelonMatrix(matrix) { // get a echelon form of a matrix and return if a matrix is singular
     var singular = false;
-
+    var saveMatrix = cloneMatrix(matrix);
     for (var i = 0; i < matrix.length; i++) {
         // check the bounds for a pivot
         if (i > matrix[i].length) {
@@ -224,8 +224,6 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
                 if (matrix[j][i]) {
                     steps.saveStep(matrix, "Swap row nº" + (i+ 1) + " with row nº" + (j+ 1)); // save this step
                     swapRow(matrix, i, j);
-                    swapRow(matrixP, i, j);
-
                     swapRow(matrixL, i, j, true);
                     break;
                 }
@@ -243,18 +241,20 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
             var info = "(where matrix[" + (j + 1) + "][" + (i + 1) + "]/" + "matrix[" + (i + 1) + "][" + (i + 1) + "] defines this factor)";
             subRows(matrix, i, j, factor, info);
             matrixL[j][i] = factor;
-            stepsL.saveStep(matrixL, "Put "+factor+" at matrix["+j+"]["+i+"].");
+            stepsL.saveStep(matrixL, "Put "+factor+" at your L matrix at: matrixL["+j+"]["+i+"].");
         }
 
 
 
     }
-
+    console.log('Save matrix');
+    logMatrix(saveMatrix);
     console.log('Matrix:');
     logMatrix(matrix);
     console.log('Matrix L:');
     logMatrix(matrixL);
     console.log('Matrix P:');
+    matrixP = generatePermutationMatrix(saveMatrix, multiplyMatrices(matrixL, matrix) ); // P * A = L * U
     logMatrix(matrixP);
     swapRowsNulls(matrix);
     return singular;
