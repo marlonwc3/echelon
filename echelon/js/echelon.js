@@ -348,7 +348,7 @@ function reduceMatrix(matrix) {
 
     // swapRowsNulls(matrix);
 
-    matrixU = cloneMatrix(idendityMatrix);
+   // matrixU = cloneMatrix(idendityMatrix);
     for (var i = matrix.length - 1; i >= 0; i--) { // for all rows
         var pivot = 0;
         var pivotPos = 0;
@@ -366,7 +366,7 @@ function reduceMatrix(matrix) {
             var factor = matrix[j][pivotPos] / pivot;
             var info = "(where matrix[" + (j + 1) + "][" + (pivotPos + 1) + "]/matrix[" + (i + 1) + "][" + (pivotPos + 1) + "]" + " defines this factor)";
             //if(pivot) matrixU[j][i] = (matrix[j][pivotPos] != 0) ? pivot/matrix[j][pivotPos] : 0;
-            if(factor) matrixU[j][i] = factor;
+            //if(factor) matrixU[j][i] = factor;
             subRows(matrix, i, j, factor, info);
         }
         var k = 1 / pivot;
@@ -374,7 +374,9 @@ function reduceMatrix(matrix) {
             // save step and strong the factor
             elementMatrix = cloneMatrix(idendityMatrix);
             elementMatrix[i][i] = k;
-            matrixU[i][i] = pivot;
+            
+            //matrixU[i][i] = pivot;
+            
             steps.saveStep(matrix, breakFactorDescription("Multiply row nº" + (i + 1) + " per aprox " + fixNumber(k, DIGITS) + " (where  1/matrix[" + (i + 1) + "][" + (pivotPos + 1) + "] defines this factor)", "strong"), elementMatrix); // save this step
             multiplyRow(matrix, i, k, true);
         }

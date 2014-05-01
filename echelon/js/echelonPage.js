@@ -50,8 +50,8 @@ function getMatrix() { //search on span whose id is "holdMatrix"
         for (var j = 0; j < m; j++) {
 
             if (cols[j].value !== "") matrix[i][j] = parseFloat(cols[j].value);
-            //else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
-            else matrix[i][j] = 0;
+            else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
+            //else matrix[i][j] = 0;
 
         }
 
@@ -194,15 +194,20 @@ $(document).ready(function() {
     echelonMatrix(matrix);
 
 
-    if (reduced) reduceMatrix(matrix);
+    if (reduced) {
+      matrixU = cloneMatrix(matrix);
+      fixMatrixEchelon(matrixU, 0.0001);
+      reduceMatrix(matrix);
+    }
 
 
     fixMatrix(matrix, DIGITS); // round results
-    if(!reduced) matrixU = cloneMatrix(matrix);
+    
    
 
 
     var resultFix = fixMatrixEchelon(matrix, 0.0001);
+    if(!reduced) matrixU = cloneMatrix(matrix);
     //alert(resultFix.fixed);
     if (!resultFix.fixed) { // alert about bug
       console.log("Not fixed at:" + resultFix.i + ' ' + resultFix.j + '  m:'+m+' n:'+n);
