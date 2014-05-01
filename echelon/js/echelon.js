@@ -548,17 +548,31 @@ function Steps() {
 }
 
 function appendPALUResults(matrixP, matrixA, matrixL, matrixU, id, button){
-    matrixP = generateRowMatrixHtml(htmlMatrix(matrixP));
-    matrixA = generateRowMatrixHtml(htmlMatrix(matrixA));
-    matrixU = generateRowMatrixHtml(htmlMatrix(matrixU));
-    matrixL = generateRowMatrixHtml(htmlMatrix(matrixL));
+    matrixP = {matrix: generateRowMatrixHtml(htmlMatrix(matrixP)), info: "Matrix P:"};
+    matrixA = {matrix: generateRowMatrixHtml(htmlMatrix(matrixA)), info: "Matrix A:"};
+    matrixU = {matrix: generateRowMatrixHtml(htmlMatrix(matrixU)), info: "Matrix U:"};
+    matrixL = {matrix: generateRowMatrixHtml(htmlMatrix(matrixL)), info: "Matrix L:"};
+
+
+
     var array = [matrixP, matrixA, matrixL, matrixU];
     var insert;
     if(!button) insert = document.getElementById(id);
     else insert = document.getElementById(id).firstElementChild;
     for(var i=0;i<array.length;i++){
-        if(button) insert.parentNode.insertBefore(array[i], insert); // insert all nodes before buttons div
-        else insert.appendChild(array[i]);
+        var container = createContainer();
+        container.setAttribute('id', 'containerStep');
+        var descriptionContainer = createContainer();
+        descriptionContainer.setAttribute('id','containerDescr');
+        var info = document.createElement('h1');
+        info.setAttribute('id', 'stepNumber');
+        info.innerHTML = array[i].info;
+        descriptionContainer.appendChild(info);
+        container.appendChild(descriptionContainer);
+
+        container.appendChild(array[i].matrix);
+        if(button) insert.parentNode.insertBefore(container, insert); // insert all nodes before buttons div
+        else insert.appendChild(container);
     }
 }
 

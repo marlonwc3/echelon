@@ -63,3 +63,10 @@ function initMatrix(matrix, n, m, idendity){
 
     if(idendity!=undefined && idendity!=null && !isNaN(idendity) && idendity && n==m ) for(i=0;i<n;i++) matrix[i][i]=1;
 }
+
+
+function createContainer(){
+    var container = document.createElement('div');
+    container.setAttribute('class', 'container');
+    return container;
+}
