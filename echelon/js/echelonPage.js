@@ -83,14 +83,17 @@ function generateMatrix(n, m) {
     holdMatrix.appendChild(row);
     for (var j = 0; j < m; j++) {
       var input = document.createElement("input");
-      input.setAttribute("type", "number");
+      input.setAttribute("type", "text");
       input.setAttribute("class", "form-control");
       input.setAttribute("placeholder", "0");
+      input.setAttribute("id", "elementInput");
 
       row.appendChild(input);
     }
   }
 
+
+  $("input[id='elementInput']").numeric();
 
 }
 
@@ -151,7 +154,7 @@ $(document).ready(function() {
 
     $("#myIndexContainer").fadeOut("fast", function() {
       generateMatrix(n, m);
-
+      $("elementInput");
       $("#myContainer").ready(function() {
         //var width = $("input.form-control:number").css('width');
         var width = parseInt($("input.form-control").css('width'));
@@ -184,6 +187,7 @@ $(document).ready(function() {
 
     fixMatrix(matrix, DIGITS); // round results
 
+
     var resultFix = fixMatrixEchelon(matrix, 0.0001);
     //alert(resultFix.fixed);
     if (!resultFix.fixed) { // alert about bug
@@ -206,6 +210,8 @@ $(document).ready(function() {
       }*/
       setTableWidth(matrix, matrixResultsHolder);
       if(singular) {
+        fixMatrix(matrixL, DIGITS);        
+        fixMatrix(matrixA, DIGITS);
         document.getElementById('PALUbutton').disabled = true;
         document.getElementById('singularStatus').innerHTML = 'Singular matrix';
         var glyph = document.createElement('span');
@@ -216,6 +222,9 @@ $(document).ready(function() {
       else {
         document.getElementById('PALUbutton').disabled = false;
         document.getElementById('singularStatus').innerHTML = '';  
+
+        logMatrix('resultado:');
+        logMatrix(multiplyMatrices(matrixL, matrix) );
       }
    
 

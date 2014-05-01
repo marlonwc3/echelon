@@ -55,7 +55,10 @@ input[type="number"] {
     width: 75px;
     display: table-row;
 }
-
+input[type="text"] {
+    width: 75px;
+    display: table-row;
+}
 .container {
     text-align: center;
 }
