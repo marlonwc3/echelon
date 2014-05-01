@@ -259,6 +259,10 @@ input[type="text"] {
   padding-left: 20px;
 }
 
+#mySteps #holdButtons {
+  padding-right: 20px;
+}
+
 #myContainerResults #holdButtons {
   margin-top: 30px;
   margin-bottom: -5px;

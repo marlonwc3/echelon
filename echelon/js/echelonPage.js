@@ -129,6 +129,16 @@ function setTableWidth(matrix, table){
   table.style.width = (1.5*maxElementLength)*m;
 }
 
+function designMatrixBorders(m){
+    if(m==1) {
+      $(".box").removeClass('multipleCols');
+      $(".box").addClass('oneCol');
+    }
+    else {
+      $(".box").removeClass('oneCol');
+      $(".box").addClass('multipleCols');      
+    } // verify matrix bounds to design a friendly border
+}
 
 $(document).ready(function() {
 
@@ -147,14 +157,7 @@ $(document).ready(function() {
     n = select[0].options[select[0].selectedIndex].text;
     m = select[1].options[select[1].selectedIndex].text;
     reduced = document.getElementById('checkboxes-0').checked;
-    if(m==1) {
-      $(".box").removeClass('multipleCols');
-      $(".box").addClass('oneCol');
-    }
-    else {
-      $(".box").removeClass('oneCol');
-      $(".box").addClass('multipleCols');      
-    }
+
     //restart the amtrix
 
 
@@ -216,6 +219,7 @@ $(document).ready(function() {
         generatePALUContainerHtml(matrixP, matrixA, matrixL, matrix);
       }*/
       setTableWidth(matrix, matrixResultsHolder);
+      designMatrixBorders(m);
       if(singular) {
         fixMatrix(matrixL, DIGITS);        
         fixMatrix(matrixA, DIGITS);
@@ -264,6 +268,7 @@ $(document).ready(function() {
     var rowPALU;
     if(!singular) {
       appendPALUResults(matrixP, matrixA, matrixL, matrix, 'myPALUResults', true);
+      designMatrixBorders(m);
     }
 
     $("#myContainerResults").fadeOut("fast", function(){
@@ -289,7 +294,7 @@ $(document).ready(function() {
             var el = steps.generateStepHtml(i);
             myStepsButton.parentNode.insertBefore(el, myStepsButton); // insert all nodes before buttons div
           }
-
+          designMatrixBorders(m);
 
           $(myStepsButton).show(); // show button div
           runningStep = false;
