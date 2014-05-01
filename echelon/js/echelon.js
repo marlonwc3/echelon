@@ -21,13 +21,14 @@
 
 
 var EPS = Math.pow(10, -8); // EPS constant for float numbers
+var EPSLU = Math.pow(10, -4);
 var DIGITS = 5;
 // initial matrix
 var matrix = [];
 var matrixL = [];
-var matrixU = [];
+var matrixA = [];
 var matrixP = [];
-
+var singular = false;
 
 
 
@@ -209,8 +210,8 @@ var generatePermutationMatrix = function(matrixA, matrixB) {
 
 
 function echelonMatrix(matrix) { // get a echelon form of a matrix and return if a matrix is singular
-    var singular = false;
-    var matrixA = cloneMatrix(matrix);
+    singular = false;
+    matrixA = cloneMatrix(matrix);
     if(matrix.length != matrix[0].length) singular =true; // matrix is not a square matrix
     for (var i = 0; i < matrix.length; i++) {
         // check the bounds for a pivot
@@ -263,7 +264,7 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
         console.log('Matrix L:');
         logMatrix(matrixL);
         matrixLU = multiplyMatrices(matrixL, matrix);
-        fixMatrix(matrixLU,DIGITS);
+        fixMatrix(matrixLU,DIGITS, true, matrixA);
         console.log('Matrix L*U:');
         logMatrix(matrixLU);
         matrixP = generatePermutationMatrix(matrixA, matrixLU ); // P * A = L * U
@@ -370,16 +371,33 @@ function fixNumber(number, digits) {
 
 }
 
+function findElementAprox(matrix, element, EPS){
 
-function fixMatrix(matrix, digits) { // round all matrix[i][j] by the number of 'digits'
+    for(var i=0;i<matrix.length;i++){
+        for(var j=0;j<matrix[i].length;j++) {
+
+            if(Math.abs(matrix[i][j] - element) <= EPSLU  ){
+                element=matrix[i][j];
+
+            }
+        }
+    }
+    return element;
+}
+
+
+function fixMatrix(matrix, digits, luRound, matrixFind) { // round all matrix[i][j] by the number of 'digits'
     var rounded = 0;
+    console.log('luRound:' + luRound);
+    luRound =  (luRound!=undefined && luRound!=null && !isNaN(luRound) && luRound) ? true : false;  // aprox elements of a LU multiply result matrix 
+    console.log('luRound:' + luRound);
     for (var i = 0; i < matrix.length; i++)
         for (var j = 0; j < matrix[i].length; j++)
             if (matrix[i][j] % 1) {
                 rounded = matrix[i][j].toFixed(digits);
                 rounded = parseFloat(rounded);
                 matrix[i][j] = (rounded % 1) ? rounded : parseFloat(rounded.toFixed(0));
-
+                if(luRound) matrix[i][j] = findElementAprox(matrixFind, matrix[i][j], EPSLU);
             }
 }
 
@@ -410,7 +428,7 @@ function fixMatrixEchelon(matrix, lim) {
 }
 
 
-function getMaxELementLength(matrix){
+function getMaxELementLength(matrix){ // return the element whose length is the bigger
     var maxLength = 0;
 
     for(var i = 0; i < matrix.length; i++)
@@ -420,7 +438,7 @@ function getMaxELementLength(matrix){
     return maxLength;
 }
 
-function htmlMatrix(matrix) {
+function htmlMatrix(matrix) { // return a matrix at html format, i.e: tbody,tr and td elements 
 
 
 
@@ -484,9 +502,6 @@ function Steps() {
     }
 
     this.generateStepHtml = function(step) {
-        //restartTable
-
-
 
         // get the matrix
         var matrix = this.list[step];
@@ -505,6 +520,50 @@ function Steps() {
         container.setAttribute('class', 'container');
         container.setAttribute('id', 'containerStep');
 
+        //generate the step descriptuion
+        var containerDescr = document.createElement('div');
+        containerDescr.setAttribute('class', 'container');
+        containerDescr.setAttribute('id', 'containerDescr');
+
+        var title = document.createElement('h1');
+        title.setAttribute('id', 'stepNumber');
+        var description = document.createElement('strong');
+        description.setAttribute('id', 'descriptionStep');
+
+        //set description
+        title.innerHTML = 'Step: ' + (step + 1);
+        description.innerHTML = descriptionText;
+
+        // apend child's from description
+        containerDescr.appendChild(title);
+        containerDescr.appendChild(description);
+
+        container.appendChild(containerDescr);
+
+        row = generateRowMatrixHtml(matrixHtml);
+        container.appendChild(row);
+
+        return container;
+    }
+}
+
+function generatePALUContainerHtml(matrixP, matrixA, matrixL, matrixU){
+    matrixP = generateRowMatrixHtml(htmlMatrix(matrixP));
+    matrixA = generateRowMatrixHtml(htmlMatrix(matrixA));
+    matrixU = generateRowMatrixHtml(htmlMatrix(matrixU));
+    matrixL = generateRowMatrixHtml(htmlMatrix(matrixL));
+
+    var containerResults = document.getElementById('myContainerResults');
+    containerResults.appendChild(matrixP);
+    containerResults.appendChild(matrixA);
+    containerResults.appendChild(matrixL);
+    containerResults.appendChild(matrixU);
+
+
+}
+
+function generateRowMatrixHtml(matrixHtml){ // generate a row (div) containing the matrix argument 
+
         var row = document.createElement('div');
         row.setAttribute('class', 'row');
 
@@ -521,49 +580,17 @@ function Steps() {
         table.setAttribute('id', 'matrixResultsHolder');
 
 
-        //generate the step descriptuion
-        var containerDescr = document.createElement('div');
-        containerDescr.setAttribute('class', 'container');
-        containerDescr.setAttribute('id', 'containerDescr');
-/*        
-        var colDescr = document.createElement('div');
-        colDescr.setAttribute('class', 'col-xs-8 col-md-10 col-offset-6');
-        colDescr.setAttribute('id', 'colDescription');
-*/
-
-        var title = document.createElement('h1');
-        title.setAttribute('id', 'stepNumber');
-        var description = document.createElement('strong');
-        description.setAttribute('id', 'descriptionStep');
-
-        //set description
-        title.innerHTML = 'Step: ' + (step + 1);
-        description.innerHTML = descriptionText;
-
-
 
         //append child's from container
         table.appendChild(matrixHtml);
         divResponsive.appendChild(table);
 
-        // apend child's from description
-        containerDescr.appendChild(title);
-        containerDescr.appendChild(description);
-
-        container.appendChild(containerDescr);
-
 
         // append child's from table
         col.appendChild(divResponsive);
         row.appendChild(col);
-        container.appendChild(row);
 
-
-        // define  table width 
-        matrix = matrix.matrix; // get the array matrix
         setTableWidth(matrix, table);
 
-
-        return container;
-    }
+        return row;
 }

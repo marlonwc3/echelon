@@ -135,7 +135,7 @@ $(document).ready(function() {
   $("#myContainer").hide();
   $("#myContainerResults").hide();
   $("#mySteps").hide();
-
+  $("#myPALUResults").hide();
 
 
   $("#indexGo").click(function() {
@@ -202,6 +202,10 @@ $(document).ready(function() {
       tableMatrix = htmlMatrix(matrix);
       matrixResultsHolder = document.getElementById('matrixResultsHolder');
       matrixResultsHolder.appendChild(tableMatrix);
+      
+/*      if(!singular) {
+        generatePALUContainerHtml(matrixP, matrixA, matrixL, matrix);
+      }*/
       setTableWidth(matrix, matrixResultsHolder);
 
       $("#myContainer").fadeOut("fast", function() {
@@ -255,6 +259,7 @@ $(document).ready(function() {
     }
 
   });
+
 
 
   $("#backToResults").click(function() {
