@@ -68,8 +68,6 @@ function generateMatrix(n, m) {
         <input type="number" class="form-control" placeholder="0">
       </div>  */
 
-
-
   //restart this span
   var oldHoldMatrix = document.getElementById('holdMatrix');
   var neWHoldMatrix = document.createElement('span');
@@ -183,10 +181,14 @@ $(document).ready(function() {
     // restart matrix
     matrix = [];
     matrixL = [];
+    matrixP = [];
+    idendityMatrix = [];
+    elementMatrix = [];
     initMatrix(matrix, n , m );
     initMatrix(matrixL, n, m);
     initMatrix(matrixP, n,m,true); 
-
+    initMatrix(idendityMatrix, n,m, true);
+    initMatrix(elementMatrix, n,m, true);
     getMatrix(); // get the matrix via html tags
 
     echelonMatrix(matrix);
@@ -196,6 +198,8 @@ $(document).ready(function() {
 
 
     fixMatrix(matrix, DIGITS); // round results
+    if(!reduced) matrixU = cloneMatrix(matrix);
+   
 
 
     var resultFix = fixMatrixEchelon(matrix, 0.0001);
@@ -207,7 +211,7 @@ $(document).ready(function() {
       alert('Bad inputs, are you trying to bug my code? Change your inputs.');
     } else {
 
-      steps.saveStep(matrix, "We've done this matrix, just " + (steps.size+1) + (steps.size > 1 ? ' steps':' step' ) + "."  );
+      steps.saveStep(matrix, "We've done this matrix, just " + (steps.size+1) + (steps.size > 1 ? ' steps':' step' ) + "." , idendityMatrix);
       restartElement('matrixResultsHolder', 'table'); // erase all old results
 
 
@@ -221,8 +225,7 @@ $(document).ready(function() {
       setTableWidth(matrix, matrixResultsHolder);
       designMatrixBorders(m);
       if(singular) {
-        fixMatrix(matrixL, DIGITS);        
-        fixMatrix(matrixA, DIGITS);
+
         document.getElementById('PALUbutton').disabled = true;
         document.getElementById('singularStatus').innerHTML = 'Singular matrix';
         var glyph = document.createElement('span');
@@ -231,11 +234,15 @@ $(document).ready(function() {
         document.getElementById('singularStatus').appendChild(glyph);
       }
       else {
+        fixMatrix(matrixL, DIGITS);        
+        fixMatrix(matrixA, DIGITS);
+
+        if(reduced) fixMatrix(matrixU, DIGITS);        
         document.getElementById('PALUbutton').disabled = false;
         document.getElementById('singularStatus').innerHTML = '';  
 
         logMatrix('resultado:');
-        logMatrix(multiplyMatrices(matrixL, matrix) );
+        logMatrix(multiplyMatrices(matrixL, matrixU) );
       }
    
 
@@ -267,7 +274,7 @@ $(document).ready(function() {
   $("#PALUbutton").click(function(){
     var rowPALU;
     if(!singular) {
-      appendPALUResults(matrixP, matrixA, matrixL, matrix, 'myPALUResults', true);
+      appendPALUResults(matrixP, matrixA, matrixL, matrixU, 'myPALUResults', true);
       designMatrixBorders(m);
     }
 

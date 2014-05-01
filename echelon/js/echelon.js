@@ -19,6 +19,13 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+/*
+This file contains all functions and variables that refer to echelon/reduced/PA=LU
+and others matrix operations, as EPS and digits constants.
+Any software engineer practices are not being in usage, so don't expect for
+a beautiful code.
+*/
+
 
 var EPS = Math.pow(10, -8); // EPS constant for float numbers
 var EPSLU = Math.pow(10, -4); // EPS for LU fixes
@@ -28,12 +35,15 @@ var matrix = [];
 var matrixL = [];
 var matrixA = [];
 var matrixP = [];
+var matrixU = [];
+var idendityMatrix = [];
+var elementMatrix = [];
 var singular = false;
 
 
 
 var steps = new Steps(); // init step storage; // store all steps
-var stepsL = new Steps();
+
 function swapRow(matrix, a, b, stopMid) { // swap row 'a' with 'b'
     
     if(a!=b) {
@@ -77,7 +87,12 @@ function subRows(matrix, a, b, k, info) { // sub row 'b' of row 'a' by a factor 
     if (k) {
         var description = "Subtract row nº" + (b + 1) + " by aprox. " + fixNumber(k, DIGITS) + " times row nº" + (a + 1) + " " + info;
         description = breakFactorDescription(description, "strong");
-        steps.saveStep(matrix, description); // save this step
+        elementMatrix = cloneMatrix(idendityMatrix);
+        elementMatrix[b][a] = k;
+
+        steps.saveStep(matrix, description, elementMatrix); // save this step
+
+
         len = matrix[a].length;
         for (var i = 0; i < len; i++) {
             matrix[b][i] = Math.abs(matrix[b][i] - k * matrix[a][i]) <= EPS ? 0 : matrix[b][i] - k * matrix[a][i];
@@ -211,6 +226,7 @@ var generatePermutationMatrix = function(matrixA, matrixB) {
 
 function echelonMatrix(matrix) { // get a echelon form of a matrix and return if a matrix is singular
     singular = false;
+
     matrixA = cloneMatrix(matrix);
     if(matrix.length != matrix[0].length) singular =true; // matrix is not a square matrix
     for (var i = 0; i < matrix.length; i++) {
@@ -224,7 +240,10 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
         if (!matrix[i][i]) {
             for (var j = i + 1; j < matrix.length; j++) {
                 if (matrix[j][i] && i != j) {
-                    steps.saveStep(matrix, "Swap row nº" + (i+ 1) + " with row nº" + (j+ 1)); // save this step
+                    elementMatrix = cloneMatrix(idendityMatrix);
+                    swapRow(elementMatrix, i, j);
+                    steps.saveStep(matrix, "Swap row nº" + (i+ 1) + " with row nº" + (j+ 1), elementMatrix); // save this step
+                    
                     swapRow(matrix, i, j);
                     swapRow(matrixL, i, j, true);
                     break;
@@ -243,7 +262,7 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
             var info = "(where matrix[" + (j + 1) + "][" + (i + 1) + "]/" + "matrix[" + (i + 1) + "][" + (i + 1) + "] defines this factor)";
             subRows(matrix, i, j, factor, info);
             matrixL[j][i] = factor;
-            stepsL.saveStep(matrixL, "Put "+factor+" at your L matrix at: matrixL["+j+"]["+i+"].");
+            
         }
 
 
@@ -257,7 +276,7 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
     logMatrix(matrixA);
     console.log('Matrix U:');
     logMatrix(matrix);
-
+    
 
     if(!singular){
 
@@ -305,7 +324,10 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
                 if (j > matrix[i].length || found) break;
                 for (var k = i; k < matrix.length && !found; k++) { // for each line
                     if (matrix[k][j] && k!=j) {
-                        steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (k + 1)); // save this step                        
+                        elementMatrix = cloneMatrix(idendityMatrix);
+                        swapRow(elementMatrix, i, k);
+
+                        steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (k + 1), elementMatrix); // save this step                        
                         swapRow(matrix, i, k);
                         found = true;
                     }
@@ -326,7 +348,7 @@ function reduceMatrix(matrix) {
 
     // swapRowsNulls(matrix);
 
-
+    matrixU = cloneMatrix(idendityMatrix);
     for (var i = matrix.length - 1; i >= 0; i--) { // for all rows
         var pivot = 0;
         var pivotPos = 0;
@@ -343,12 +365,17 @@ function reduceMatrix(matrix) {
         for (var j = i - 1; j >= 0; j--) {
             var factor = matrix[j][pivotPos] / pivot;
             var info = "(where matrix[" + (j + 1) + "][" + (pivotPos + 1) + "]/matrix[" + (i + 1) + "][" + (pivotPos + 1) + "]" + " defines this factor)";
+            //if(pivot) matrixU[j][i] = (matrix[j][pivotPos] != 0) ? pivot/matrix[j][pivotPos] : 0;
+            if(factor) matrixU[j][i] = factor;
             subRows(matrix, i, j, factor, info);
         }
         var k = 1 / pivot;
         if (!(k == 1)) {
             // save step and strong the factor
-            steps.saveStep(matrix, breakFactorDescription("Multiply row nº" + (i + 1) + " per aprox " + fixNumber(k, DIGITS) + " (where  1/matrix[" + (i + 1) + "][" + (pivotPos + 1) + "] defines this factor)", "strong")); // save this step
+            elementMatrix = cloneMatrix(idendityMatrix);
+            elementMatrix[i][i] = k;
+            matrixU[i][i] = pivot;
+            steps.saveStep(matrix, breakFactorDescription("Multiply row nº" + (i + 1) + " per aprox " + fixNumber(k, DIGITS) + " (where  1/matrix[" + (i + 1) + "][" + (pivotPos + 1) + "] defines this factor)", "strong"), elementMatrix); // save this step
             multiplyRow(matrix, i, k, true);
         }
     }
@@ -474,12 +501,17 @@ function Steps() {
         this.size = 0;
     }
 
-    this.saveStep = function(matrix, description) {
+    this.saveStep = function(matrix, description, elementMatrix) {
         //alertMatrix(matrix);
+        //console.log("ELEMENT MATRIX: " + elementMatrix);
+        
+
         this.list[this.list.length] = {
             matrix: matrix,
             description: description,
-            matrixHtml: htmlMatrix(matrix)
+            matrixHtml: htmlMatrix(matrix),
+            elementMatrix: elementMatrix,
+            elementMatrixHtml: htmlMatrix(elementMatrix)
         };
         this.size++;
     }
