@@ -171,8 +171,6 @@ then you must return a strin in this format:
 Assume that 'tag' parameter and 'description' paremeter are string's.
 So you put the 'K' number at 'description' between 'tag' parameter'
 function breakFactorDescription(description, tag)*/
-
-
 var generatePermutationMatrix = function(matrixA, matrixB) {
 
     var actualLines = [];
