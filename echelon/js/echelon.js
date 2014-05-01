@@ -547,19 +547,19 @@ function Steps() {
     }
 }
 
-function generatePALUContainerHtml(matrixP, matrixA, matrixL, matrixU){
+function appendPALUResults(matrixP, matrixA, matrixL, matrixU, id, button){
     matrixP = generateRowMatrixHtml(htmlMatrix(matrixP));
     matrixA = generateRowMatrixHtml(htmlMatrix(matrixA));
     matrixU = generateRowMatrixHtml(htmlMatrix(matrixU));
     matrixL = generateRowMatrixHtml(htmlMatrix(matrixL));
-
-    var containerResults = document.getElementById('myContainerResults');
-    containerResults.appendChild(matrixP);
-    containerResults.appendChild(matrixA);
-    containerResults.appendChild(matrixL);
-    containerResults.appendChild(matrixU);
-
-
+    var array = [matrixP, matrixA, matrixL, matrixU];
+    var insert;
+    if(!button) insert = document.getElementById(id);
+    else insert = document.getElementById(id).firstElementChild;
+    for(var i=0;i<array.length;i++){
+        if(button) insert.parentNode.insertBefore(array[i], insert); // insert all nodes before buttons div
+        else insert.appendChild(array[i]);
+    }
 }
 
 function generateRowMatrixHtml(matrixHtml){ // generate a row (div) containing the matrix argument 

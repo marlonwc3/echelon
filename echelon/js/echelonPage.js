@@ -233,7 +233,20 @@ $(document).ready(function() {
     });
   });
 
+  $("#PALUbutton").click(function(){
+    var rowPALU;
+    if(!singular) {
+      appendPALUResults(matrixP, matrixA, matrixL, matrix, 'myPALUResults', true);
+    }
 
+    $("#myContainerResults").fadeOut("fast", function(){
+
+
+      $("#myPALUResults").fadeIn("fast", function(){
+
+      });
+    });
+  });
 
   $("#stepByStep").click(function() {
     if (!runningStep) {
@@ -260,30 +273,22 @@ $(document).ready(function() {
 
   });
 
+  $("#backFromPALU").click(function() { // restart PALU page
+    var holdButtons = document.getElementById('myPALUResults').lastElementChild; //
+    restartElement('myPALUResults', 'div'); 
+    $("#myPALUResults").fadeOut("fast", function() {
+      document.getElementById('myPALUResults').appendChild(holdButtons);
+      $("#myContainerResults").fadeIn("fast");
+    });
+  });
 
-
-  $("#backToResults").click(function() {
-
-    /*
-            Restart step-by-step table 
-          */
-
-    //restart steps 
+  $("#backToResults").click(function() { // restart step-by-step page
     var holdButtons = document.getElementById('mySteps').lastElementChild; //
     restartElement('mySteps', 'div');
-
-
-
     $("#mySteps").fadeOut("fast", function() {
       document.getElementById('mySteps').appendChild(holdButtons);
-
-      $("#myContainerResults").fadeIn("fast", function() {
-
-
-      });
-
+      $("#myContainerResults").fadeIn("fast");
     });
-
   });
 
 });
