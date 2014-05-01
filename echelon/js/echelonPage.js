@@ -50,8 +50,8 @@ function getMatrix() { //search on span whose id is "holdMatrix"
         for (var j = 0; j < m; j++) {
 
             if (cols[j].value !== "") matrix[i][j] = parseFloat(cols[j].value);
-            //else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
-            else matrix[i][j] = 0;
+            else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
+            //else matrix[i][j] = 0;
 
         }
 

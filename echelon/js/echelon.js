@@ -188,7 +188,7 @@ var generatePermutationMatrix = function(matrixA, matrixB) {
             }
         }
     }
-
+    if(actualLines.length==0) console.log('LENGTH 0');
     var matrixPerm = [];
 
     for (var i = 0; i < n; i++) {
@@ -210,7 +210,8 @@ var generatePermutationMatrix = function(matrixA, matrixB) {
 
 function echelonMatrix(matrix) { // get a echelon form of a matrix and return if a matrix is singular
     var singular = false;
-    var saveMatrix = cloneMatrix(matrix);
+    var matrixA = cloneMatrix(matrix);
+    if(matrix.length != matrix[0].length) singular =true; // matrix is not a square matrix
     for (var i = 0; i < matrix.length; i++) {
         // check the bounds for a pivot
         if (i > matrix[i].length) {
@@ -247,16 +248,31 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
 
 
     }
-    console.log('Save matrix');
-    logMatrix(saveMatrix);
-    console.log('Matrix:');
-    logMatrix(matrix);
-    console.log('Matrix L:');
-    logMatrix(matrixL);
-    console.log('Matrix P:');
-    matrixP = generatePermutationMatrix(saveMatrix, multiplyMatrices(matrixL, matrix) ); // P * A = L * U
-    logMatrix(matrixP);
     swapRowsNulls(matrix);
+
+
+
+    console.log('Matrix A');
+    logMatrix(matrixA);
+    console.log('Matrix U:');
+    logMatrix(matrix);
+
+
+    if(!singular){
+
+        console.log('Matrix L:');
+        logMatrix(matrixL);
+        matrixLU = multiplyMatrices(matrixL, matrix);
+        fixMatrix(matrixLU,DIGITS);
+        console.log('Matrix L*U:');
+        logMatrix(matrixLU);
+        matrixP = generatePermutationMatrix(matrixA, matrixLU ); // P * A = L * U
+        console.log('Matrix P:');
+        logMatrix(matrixP); 
+    }
+    else console.log('Matrix singular..');
+
+
     return singular;
 }
 
