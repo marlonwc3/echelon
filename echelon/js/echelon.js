@@ -33,20 +33,40 @@ var matrixP = [];
 
 var steps = new Steps(); // init step storage; // store all steps
 var stepsL = new Steps();
-function swapRow(matrix, a, b) { // swap row 'a' with 'b'
-    if (a != b) {
-        steps.saveStep(matrix, "Swap row nº" + (a + 1) + " with row nº" + (b + 1)); // save this step
-        var aux = matrix[a];
-        matrix[a] = matrix[b];
-        matrix[b] = aux;
+function swapRow(matrix, a, b, stopMid) { // swap row 'a' with 'b'
+    
+    if(a!=b) {
+        var aux;
+        if( !isNaN(stopMid) && stopMid!=undefined && stopMid!=null && stopMid) { // swapping L matrix 
+            stopMid = Math.min(a,b); // stop at min 
+            /*
+                1 0 0             ->   1 0 0
+                |3 |1 0  <- a     ->   4 1 0 
+                |4 |? 1  <- b     ->   3 0 1 
+            */
+            for(var i = 0; i < matrix[a].length && i  < stopMid; i++){
+                aux = matrix[a][i];
+                matrix[a][i] = matrix[b][i];
+                matrix[b][i] = aux;
+            }
 
-        /*        if(teste==0){
-                alert('etntrou');
-                steps.saveStep(matrix, 'Swaped row ('+a +') with row ('+ b+' )' );    
-                alert(steps.list.length);
-                a++;
-            }*/
+        }
+        else {
+//                steps.saveStep(matrix, "Swap row nº" + (a + 1) + " with row nº" + (b + 1)); // save this step
+                aux = matrix[a];
+                matrix[a] = matrix[b];
+                matrix[b] = aux;
+
+                /*        if(teste==0){
+                        alert('etntrou');
+                        steps.saveStep(matrix, 'Swaped row ('+a +') with row ('+ b+' )' );    
+                        alert(steps.list.length);
+                        a++;
+                    }*/
+        }
     }
+ 
+
 
 }
 
@@ -204,7 +224,11 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
         if (!matrix[i][i]) {
             for (var j = i + 1; j < matrix.length; j++) {
                 if (matrix[j][i]) {
+                    steps.saveStep(matrix, "Swap row nº" + (i+ 1) + " with row nº" + (j+ 1)); // save this step
                     swapRow(matrix, i, j);
+                    swapRow(matrixP, i, j);
+
+                    swapRow(matrixL, i, j, true);
                     break;
                 }
             }
@@ -225,11 +249,15 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
         }
 
 
+
     }
 
-
+    console.log('Matrix:');
+    logMatrix(matrix);
+    console.log('Matrix L:');
     logMatrix(matrixL);
-
+    console.log('Matrix P:');
+    logMatrix(matrixP);
     swapRowsNulls(matrix);
     return singular;
 }
@@ -262,6 +290,7 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
                 if (j > matrix[i].length || found) break;
                 for (var k = i; k < matrix.length && !found; k++) { // for each line
                     if (matrix[k][j]) {
+                        steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (k + 1)); // save this step                        
                         swapRow(matrix, i, k);
                         found = true;
                     }
@@ -272,6 +301,8 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
         }
     }
 }
+
+
 
 function reduceMatrix(matrix) {
     /*
@@ -426,7 +457,13 @@ function Steps() {
         return this.list[this.actual++];
     }
 
+    this.logSteps = function(){
+        for(var i=0; i < this.list.length; i++){
+            console.log('Step: ' +( i+1));
+            logMatrix(this.list[i]);
+        }
 
+    }
 
     this.getAllHtml = function() {
 

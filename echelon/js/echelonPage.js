@@ -169,20 +169,10 @@ $(document).ready(function() {
   $("#echelonButton").click(function() {
     // restart matrix
     matrix = [];
-    for (var i = 0; i < n; i++) {
-      matrix.push([]);
-      for (var j = 0; j < m; j++) {
-        matrix[i].push([]);
-      }
-    }
-
     matrixL = [];
-    for (var i = 0; i < n; i++) {
-      matrixL.push([]);
-      for (var j = 0; j < m; j++) {
-        matrixL[i][j] =   (i==j) ? 1 : 0;
-      }
-    }
+    initMatrix(matrix, n , m );
+    initMatrix(matrixL, n, m);
+    initMatrix(matrixP, n,m,true); 
 
     getMatrix(); // get the matrix via html tags
 
@@ -199,7 +189,7 @@ $(document).ready(function() {
     if (!resultFix.fixed) { // alert about bug
       console.log("Not fixed at:" + resultFix.i + ' ' + resultFix.j + '  m:'+m+' n:'+n);
       console.log("Matrix:");
-      console.log(matrix);
+      logMatrix(matrix);
       alert('Bad inputs, are you trying to bug my code? Change your inputs.');
     } else {
 

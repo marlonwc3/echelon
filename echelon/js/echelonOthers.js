@@ -38,3 +38,17 @@ function logMatrix(matrix){
 
 	console.log(s);
 }
+
+
+
+function initMatrix(matrix, n, m, idendity){
+    var i, j;
+    for (i= 0; i < n; i++) {
+      matrix.push([]);
+      for (j = 0; j < m; j++) {
+        matrix[i][j] =   (i==j) ? 1 : 0;
+      }
+    }
+
+    if(idendity!=undefined && idendity!=null && !isNaN(idendity) && idendity && n==m ) for(i=0;i<n;i++) matrix[i][i]=1;
+}
