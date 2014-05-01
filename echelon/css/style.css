@@ -25,7 +25,7 @@ body.modal-open #wrap{
 p, h1, h2, h3, h4, a, .control-label , #indexGo, #enter ,#echelonButton, #backIndex, #stepByStep, #back, #descriptionStep, #stepNumber, #thanksQuote, .modal-body, .modal-title{
   font-family: OpenSans-Light;
   font-weight: lighter;
-  /*é bold, bolder, light, normal, */
+  /* bold, bolder, light, normal, */
 }
 
 #singularStatus{
@@ -189,20 +189,20 @@ input[type="text"] {
 }
 
 #strangInfo {
-        -webkit-transform: translateX(-1px) translateY(68px) rotate(-17deg);
-       -moz-transform: translateX(-1px) translateY(68px) rotate(-17deg);
-        -ms-transform: translateX(-1px) translateY(68px) rotate(-17deg);
-         -o-transform: translateX(-1px) translateY(68px) rotate(-17deg);
-            transform: translateX(-1px) translateY(68px) rotate(-17deg);
+  -webkit-transform: translateX(-1px) translateY(68px) rotate(-17deg);
+  -moz-transform: translateX(-1px) translateY(68px) rotate(-17deg);
+  -ms-transform: translateX(-1px) translateY(68px) rotate(-17deg);
+  -o-transform: translateX(-1px) translateY(68px) rotate(-17deg);
+  transform: translateX(-1px) translateY(68px) rotate(-17deg);
 
-    -webkit-transition-delay: 0s;
-       -moz-transition-delay: 0s;
-         -o-transition-delay: 0s;
-            transition-delay: 0s;
+  -webkit-transition-delay: 0s;
+  -moz-transition-delay: 0s;
+  -o-transition-delay: 0s;
+  transition-delay: 0s;
 }
 
-#holdButtons {
-  
+.container #holdButtons {
+  padding-right: 40px;
   margin-bottom: 20px;
 }
 
@@ -212,12 +212,25 @@ input[type="text"] {
 }
 
 
+.oneCol:before{
+  width: 8px;
+}
+.oneCol:after{
+  width: 8px;
+}
+
+.multipleCols:after{
+  width: 14px;
+}
+.multipleCols:before{
+  width: 14px;
+}
+
 .box{
     height:10em;
     width:10em;
     padding:.5em;
     position:relative;
-    
 }
 .box:before{
     content: "";
@@ -225,7 +238,7 @@ input[type="text"] {
     top: -2px;
     left: -2px;
     bottom: -2px;
-    width: 17px;
+    /*width: 17px;*/
     border: 2px solid #5c5c5c;
     border-right:none;
     z-index:1;
@@ -236,7 +249,7 @@ input[type="text"] {
     top: -2px;
     right: -2px;
     bottom:-2px;
-    width: 17px;
+/*    width: 17px;*/
     border: 2px solid #5c5c5c;
     border-left:none;
     z-index:1;

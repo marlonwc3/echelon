@@ -147,7 +147,14 @@ $(document).ready(function() {
     n = select[0].options[select[0].selectedIndex].text;
     m = select[1].options[select[1].selectedIndex].text;
     reduced = document.getElementById('checkboxes-0').checked;
-
+    if(m==1) {
+      $(".box").removeClass('multipleCols');
+      $(".box").addClass('oneCol');
+    }
+    else {
+      $(".box").removeClass('oneCol');
+      $(".box").addClass('multipleCols');      
+    }
     //restart the amtrix
 
 
