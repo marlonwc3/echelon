@@ -16,7 +16,7 @@ if(test) {
 	//TEST TWO
 	console.log("Tests 2:");
 	console.log(multiplyMatrices(matA, matB));
-	 
+	   
 	//TEST THREE
 	console.log("Tests 3");
 	console.log(breakFactorDescription("Multiply row nºA per aprox K (where 1/matrix[i][j]) defines this factor", "tag"));

@@ -205,8 +205,20 @@ $(document).ready(function() {
         generatePALUContainerHtml(matrixP, matrixA, matrixL, matrix);
       }*/
       setTableWidth(matrix, matrixResultsHolder);
-      if(singular) document.getElementById('PALUbutton').disabled = true;
-      else document.getElementById('PALUbutton').disabled = false;
+      if(singular) {
+        document.getElementById('PALUbutton').disabled = true;
+        document.getElementById('singularStatus').innerHTML = 'Singular matrix';
+        var glyph = document.createElement('span');
+        glyph.setAttribute('style', 'margin-left: 10px;');
+        glyph.setAttribute('class', 'glyphicon glyphicon-link');
+        document.getElementById('singularStatus').appendChild(glyph);
+      }
+      else {
+        document.getElementById('PALUbutton').disabled = false;
+        document.getElementById('singularStatus').innerHTML = '';  
+      }
+   
+
       $("#myContainer").fadeOut("fast", function() {
         $("#myContainerResults").fadeIn("fast");
       });

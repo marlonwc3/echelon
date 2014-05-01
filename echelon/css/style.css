@@ -21,11 +21,16 @@ body.modal-open #wrap{
   font-family: "icmcsc10";
   src: url("fonts/icmcsc10.tmf");
 }
-
-p, h1, h2, h3, h4, a, .control-label , #indexGo, #enter, #echelonButton, #backIndex, #stepByStep, #back, #descriptionStep, #stepNumber, #thanksQuote, .modal-body, .modal-title{
+  
+p, h1, h2, h3, h4, a, .control-label , #indexGo, #enter ,#echelonButton, #backIndex, #stepByStep, #back, #descriptionStep, #stepNumber, #thanksQuote, .modal-body, .modal-title{
   font-family: OpenSans-Light;
   font-weight: lighter;
   /*é bold, bolder, light, normal, */
+}
+
+#singularStatus{
+  font-family: OpenSans-Light;
+  font-weight: bolder;
 }
 
 #devBy {
@@ -42,6 +47,7 @@ p, h1, h2, h3, h4, a, .control-label , #indexGo, #enter, #echelonButton, #backIn
 
 
 #thanksQuote {
+  margin-top: 20px;
   border-left: none;
 }
 
@@ -254,4 +260,7 @@ input[type="number"] {
 
 #mySteps #holdButtons{
   margin-top: 50px;
+}
+.centered {
+  margin-bottom: 30px;
 }
