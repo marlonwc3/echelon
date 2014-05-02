@@ -39,7 +39,7 @@ var matrixU = [];
 var idendityMatrix = [];
 var elementMatrix = [];
 var singular = false;
-
+var square = true;
 
 
 var steps = new Steps(); // init step storage; // store all steps
@@ -87,8 +87,11 @@ function subRows(matrix, a, b, k, info) { // sub row 'b' of row 'a' by a factor 
     if (k) {
         var description = "Subtract row nº" + (b + 1) + " by aprox. " + fixNumber(k, DIGITS) + " times row nº" + (a + 1) + " " + info;
         description = breakFactorDescription(description, "strong");
-        elementMatrix = cloneMatrix(idendityMatrix);
-        elementMatrix[b][a] = k;
+        if(square) {
+            elementMatrix = cloneMatrix(idendityMatrix);
+            elementMatrix[b][a] = -1*k;            
+        }
+
 
         steps.saveStep(matrix, description, elementMatrix); // save this step
 
@@ -226,9 +229,9 @@ var generatePermutationMatrix = function(matrixA, matrixB) {
 
 function echelonMatrix(matrix) { // get a echelon form of a matrix and return if a matrix is singular
     singular = false;
-
+    square = true;
     matrixA = cloneMatrix(matrix);
-    if(matrix.length != matrix[0].length) singular =true; // matrix is not a square matrix
+    if(matrix.length != matrix[0].length) {square = false; singular =true;} // matrix is not a square matrix
     for (var i = 0; i < matrix.length; i++) {
         // check the bounds for a pivot
         if (i > matrix[i].length) {
@@ -240,8 +243,12 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
         if (!matrix[i][i]) {
             for (var j = i + 1; j < matrix.length; j++) {
                 if (matrix[j][i] && i != j) {
-                    elementMatrix = cloneMatrix(idendityMatrix);
-                    swapRow(elementMatrix, i, j);
+                    if(square) {
+                        elementMatrix = cloneMatrix(idendityMatrix);
+                        swapRow(elementMatrix, i, j);
+                    }
+
+                    
                     steps.saveStep(matrix, "Swap row nº" + (i+ 1) + " with row nº" + (j+ 1), elementMatrix); // save this step
                     
                     swapRow(matrix, i, j);
@@ -324,8 +331,11 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
                 if (j > matrix[i].length || found) break;
                 for (var k = i; k < matrix.length && !found; k++) { // for each line
                     if (matrix[k][j] && k!=j) {
-                        elementMatrix = cloneMatrix(idendityMatrix);
-                        swapRow(elementMatrix, i, k);
+                        if(square) {
+                            elementMatrix = cloneMatrix(idendityMatrix);
+                            swapRow(elementMatrix, i, k);
+                        }
+
 
                         steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (k + 1), elementMatrix); // save this step                        
                         swapRow(matrix, i, k);
@@ -372,8 +382,11 @@ function reduceMatrix(matrix) {
         var k = 1 / pivot;
         if (!(k == 1)) {
             // save step and strong the factor
-            elementMatrix = cloneMatrix(idendityMatrix);
-            elementMatrix[i][i] = k;
+            if(square) {
+                elementMatrix = cloneMatrix(idendityMatrix);
+                elementMatrix[i][i] = k;
+            }
+
             
             //matrixU[i][i] = pivot;
             
@@ -506,8 +519,14 @@ function Steps() {
     this.saveStep = function(matrix, description, elementMatrix) {
         //alertMatrix(matrix);
         //console.log("ELEMENT MATRIX: " + elementMatrix);
-        fixMatrix(elementMatrix, DIGITS); // round results
-        fixMatrixEchelon(elementMatrix, 0.0001);        
+        
+        if(square) {
+            fixMatrix(elementMatrix, DIGITS); // round results
+            fixMatrixEchelon(elementMatrix, 0.0001);        
+        }
+
+        
+
         fixMatrixEchelon(matrix, 0.0001);  
 
         this.list[this.list.length] = {
@@ -578,46 +597,53 @@ function Steps() {
 
         row = generateRowMatrixHtml(matrixHtml);
         container.appendChild(row);
-         //   Now container contains descript and step matrix
-        var elementMatrix = this.generateElementHtml(step);
-        $(elementMatrix).hide(); // hide the element matrix
+        if(square && step < (this.size-1) ) {
+             //   Now container contains descript and step matrix
+            var elementMatrix = this.generateElementHtml(step);
+            $(elementMatrix).hide(); // hide the element matrix
 
-        var elementButton = document.createElement('button'); // create a button to this element matrix
-        elementButton.setAttribute('class', 'btn btn-warning btn-sm'); // give some style
-        elementButton.setAttribute('id', 'toggleElemenButton');
-        elementButton.innerHTML = "See Elementar";
-        container.appendChild(elementButton); 
-        
-        //    Now container contains descript, step matrix and element button
-        elementButton.parentNode.insertBefore(elementMatrix, elementButton);
-        //    Now container contains descript,step matrix, element matrix and element button
-        elementButton.setAttribute('value', '0');
-        $(elementButton).click(function(){ // define this button action
-           elementButton.disabled = true;
-           console.log(elementButton.value + '    ' +  (typeof elementButton.value) ) ;
-           var valueButton = parseInt(elementButton.value);
-            console.log(valueButton);
-            if(!(valueButton%2)) {
-                $(elementButton).prev().prev().fadeOut(function(){
-                    $(elementButton).prev().fadeIn(function(){
-                        elementButton.innerHTML = 'Back to step'; 
-                        elementButton.disabled = false;
+            var elementButton = document.createElement('button'); // create a button to this element matrix
+            elementButton.setAttribute('class', 'btn btn-warning btn-sm'); // give some style
+            elementButton.setAttribute('id', 'toggleElemenButton');
+            elementButton.innerHTML = "See Elementar";
+            container.appendChild(elementButton); 
+            
+            //    Now container contains descript, step matrix and element button
+            elementButton.parentNode.insertBefore(elementMatrix, elementButton);
+            //    Now container contains descript,step matrix, element matrix and element button
+            elementButton.setAttribute('value', '0');
+            $(elementButton).click(function(){ // define this button action
+               elementButton.disabled = true;
+               console.log(elementButton.value + '    ' +  (typeof elementButton.value) ) ;
+               var valueButton = parseInt(elementButton.value);
+                console.log(valueButton);
+                if(!(valueButton%2)) {
+                    $(elementButton).prev().prev().fadeOut(function(){
+                        $(elementButton).prev().fadeIn(function(){
+                            elementButton.innerHTML = 'Back to step'; 
+                            elementButton.disabled = false;
+                        });
                     });
-                });
-            }
-            else{
-                $(elementButton).prev().fadeOut(function(){
-                    $(elementButton).prev().prev().fadeIn(function(){
-                        elementButton.innerHTML = 'See Elementar';
-                         elementButton.disabled = false;
-                    });
-                });                
-            }
-            valueButton++;
-            valueButton%=2;
-            elementButton.setAttribute('value', valueButton );
+                }
+                else{
+                    $(elementButton).prev().fadeOut(function(){
+                        $(elementButton).prev().prev().fadeIn(function(){
+                            elementButton.innerHTML = 'See Elementar';
+                             elementButton.disabled = false;
+                        });
+                    });                
+                }
+                valueButton++;
+                valueButton%=2;
+                elementButton.setAttribute('value', valueButton );
 
-        });         
+            });     
+
+        }       
+
+
+
+
         return container;
     }
 

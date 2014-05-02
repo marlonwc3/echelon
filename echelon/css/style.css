@@ -34,11 +34,11 @@ p, h1, h2, h3, h4, a, .control-label , #indexGo, #enter ,#echelonButton, #backIn
 }
 
 #devBy {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: bold ;
 }
 #colaborators {
-  font-size: 12px;
+  /*font-size: 15px;*/
 }
 
 .form-group #selectbasic, #myContainer {
@@ -261,6 +261,10 @@ input[type="text"] {
   height: 30px;
 }
 
+#backFromPALU {
+  margin-left: 45px;
+}
+
 #myContainer #holdButtons {
   padding-left: 20px;
 }
@@ -270,7 +274,7 @@ input[type="text"] {
 }
 
 #backToResults {
-  margin-left: 15px;
+  margin-left: 13px;
 }
 
 #myContainerResults #holdButtons {

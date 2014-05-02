@@ -98,8 +98,7 @@ function generateMatrix(n, m) {
 
 
 function restartElement(id, el, callback) { // restart a element and preserve id and class
-
-
+  
   var old = document.getElementById(id);
   var aux = document.createElement(el);
   aux.setAttribute('id', old.getAttribute('id'));
@@ -155,7 +154,11 @@ $(document).ready(function() {
     n = select[0].options[select[0].selectedIndex].text;
     m = select[1].options[select[1].selectedIndex].text;
     reduced = document.getElementById('checkboxes-0').checked;
-
+    if(n!=m) {
+      singular = true;
+      square = false;
+    }
+    else square = true;
     //restart the amtrix
 
 
