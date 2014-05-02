@@ -2,6 +2,8 @@
 	background-color: gray;
 }
 
+
+
 body.modal-open #wrap{
     -webkit-filter: blur(7px);
     -moz-filter: blur(15px);
@@ -22,13 +24,17 @@ body.modal-open #wrap{
   src: url("fonts/icmcsc10.tmf");
 }
   
-p, h1, h2, h3, h4, a, .control-label , #indexGo, #enter ,#echelonButton, #backIndex, #stepByStep, #back, #descriptionStep, #stepNumber, #thanksQuote, .modal-body, .modal-title{
+p, h1, h2, h3, h4, a, #navBarTitle, .control-label , #indexGo, #enter ,#echelonButton, #backIndex, #stepByStep, #back, #descriptionStep, #stepNumber, #thanksQuote, .modal-body, .modal-title{
   font-family: OpenSans-Light;
   font-weight: lighter;
   /* bold, bolder, light, normal, */
 }
 
-#singularStatus{
+#glyphSingular  {
+  margin-left: 12px;
+}
+
+#singularStatus, #statusMatrix, #squareStatus {
   font-family: OpenSans-Light;
   font-weight: bolder;
 }
@@ -288,8 +294,9 @@ input[type="text"] {
 }
 
 #navBarTitle {
-  font-size: 13px;
-
+  font-size: 15px;
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 #mySteps #holdButtons{

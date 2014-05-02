@@ -25,7 +25,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html" id="navBarTitle"><strong>Matrix echelon & reduced form<strong></a>
+        <a class="navbar-brand" href="index.html" id="navBarTitle"><strong>Echelon & Reduced<strong></a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
@@ -77,11 +77,13 @@
         </span>
 
           <span id="colaborators"> 
-            <p>in collaboration with Linear Algebra Monitor:</p>          
+            <p>in collaboration with:</p>
+            <p>
+             Linear Algebra Monitor:</p>          
             <p> <a target="_blank" href="http://www.cin.ufpe.br/~lsa2/">Lucas de Souza Albuquerque</a> (lsa2@cin.ufpe.br)</p>
             <p>and </p> 
             <p> this <i>dwarf</i> who helped me with front-end and design issues</p>
-            <p>  <a target="_blank" href="http://wwww.cin.ufpe.br/~tls/">Tomer de Lima Simis</a> (tls@cin.ufpe.br)</p>    
+            <p>  <a target="_blank" href="http://www.cin.ufpe.br/~tls/">Tomer de Lima Simis</a> (tls@cin.ufpe.br)</p>    
             <p>   (click on these names to see awesome projects, games, contact, biography and more!) </p>
           </span>        
 
@@ -235,7 +237,16 @@
 
       </div>
 
-      <h4><strong id="singularStatus"></strong> </h4>
+      <h4>
+
+        <strong id="statusMatrix">
+          
+          <p id="squareStatus"></p>
+          <p id="singularStatus"> <span id="glyphSingular"></span></p>
+          
+        </strong>
+
+       </h4>
       <!-- Buttons container  -->
       <div class="container" id="holdButtons">
         <button class="btn btn-info"  role="button" id="stepByStep">Step-by-step

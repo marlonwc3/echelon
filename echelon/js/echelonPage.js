@@ -98,7 +98,7 @@ function generateMatrix(n, m) {
 
 
 function restartElement(id, el, callback) { // restart a element and preserve id and class
-  
+
   var old = document.getElementById(id);
   var aux = document.createElement(el);
   aux.setAttribute('id', old.getAttribute('id'));
@@ -194,6 +194,8 @@ $(document).ready(function() {
     initMatrix(elementMatrix, n,m, true);
     getMatrix(); // get the matrix via html tags
 
+
+    //call echelon main method   
     echelonMatrix(matrix);
 
 
@@ -232,27 +234,47 @@ $(document).ready(function() {
       }*/
       setTableWidth(matrix, matrixResultsHolder);
       designMatrixBorders(m);
+      var glyph = document.createElement('span');
+      var PALUButon = document.getElementById('PALUbutton');
+      var singularStatus = document.getElementById('singularStatus');
+      glyph.setAttribute('id', 'glyphSingular');
       if(singular) {
-
-        document.getElementById('PALUbutton').disabled = true;
-        document.getElementById('singularStatus').innerHTML = 'Singular matrix';
-        var glyph = document.createElement('span');
-        glyph.setAttribute('style', 'margin-left: 10px;');
+        PALUButon.disabled = true;
+        
+        singularStatus.innerHTML = 'Singular';
         glyph.setAttribute('class', 'glyphicon glyphicon-link');
-        document.getElementById('singularStatus').appendChild(glyph);
+//        document.getElementById('singularStatus').appendChild(glyph);
+    
       }
       else {
         fixMatrix(matrixL, DIGITS);        
         fixMatrix(matrixA, DIGITS);
 
         if(reduced) fixMatrix(matrixU, DIGITS);        
-        document.getElementById('PALUbutton').disabled = false;
-        document.getElementById('singularStatus').innerHTML = '';  
+        PALUButon.disabled = false;
+
+        glyph.setAttribute('class', 'glyphicon glyphicon-transfer');
+        singularStatus.innerHTML = 'Non-singular';  
 
         logMatrix('resultado:');
         logMatrix(multiplyMatrices(matrixL, matrixU) );
+
       }
-   
+      singularStatus.appendChild(glyph);
+
+      var squareStatus = document.getElementById('squareStatus');
+      glyph = document.createElement('span');
+      glyph.setAttribute('id', 'glyphSingular');      
+      if(square) {
+        glyph.setAttribute('class', 'glyphicon glyphicon-th-large');
+        squareStatus.innerHTML = 'Square';
+      }
+      else {
+         glyph.setAttribute('class', 'glyphicon glyphicon-align-center');
+        squareStatus.innerHTML = 'Non-square';
+      }
+      squareStatus.appendChild(glyph);
+
 
       $("#myContainer").fadeOut("fast", function() {
         $("#myContainerResults").fadeIn("fast");
@@ -343,6 +365,8 @@ $(document).ready(function() {
       $("#myContainerResults").fadeIn("fast");
     });
   });
+
+
 
 });
 
