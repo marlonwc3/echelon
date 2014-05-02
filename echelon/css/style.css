@@ -255,12 +255,22 @@ input[type="text"] {
     z-index:1;
 }
 
+#toggleElemenButton {
+  margin-top: 15px;
+  width: 120px;
+  height: 30px;
+}
+
 #myContainer #holdButtons {
   padding-left: 20px;
 }
 
 #mySteps #holdButtons {
   padding-right: 20px;
+}
+
+#backToResults {
+  margin-left: 15px;
 }
 
 #myContainerResults #holdButtons {

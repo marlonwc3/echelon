@@ -506,7 +506,9 @@ function Steps() {
     this.saveStep = function(matrix, description, elementMatrix) {
         //alertMatrix(matrix);
         //console.log("ELEMENT MATRIX: " + elementMatrix);
-        
+        fixMatrix(elementMatrix, DIGITS); // round results
+        fixMatrixEchelon(elementMatrix, 0.0001);        
+        fixMatrixEchelon(matrix, 0.0001);  
 
         this.list[this.list.length] = {
             matrix: matrix,
@@ -576,8 +578,52 @@ function Steps() {
 
         row = generateRowMatrixHtml(matrixHtml);
         container.appendChild(row);
+         //   Now container contains descript and step matrix
+        var elementMatrix = this.generateElementHtml(step);
+        $(elementMatrix).hide(); // hide the element matrix
 
+        var elementButton = document.createElement('button'); // create a button to this element matrix
+        elementButton.setAttribute('class', 'btn btn-warning btn-sm'); // give some style
+        elementButton.setAttribute('id', 'toggleElemenButton');
+        elementButton.innerHTML = "See Elementar";
+        container.appendChild(elementButton); 
+        
+        //    Now container contains descript, step matrix and element button
+        elementButton.parentNode.insertBefore(elementMatrix, elementButton);
+        //    Now container contains descript,step matrix, element matrix and element button
+        elementButton.setAttribute('value', '0');
+        $(elementButton).click(function(){ // define this button action
+           elementButton.disabled = true;
+           console.log(elementButton.value + '    ' +  (typeof elementButton.value) ) ;
+           var valueButton = parseInt(elementButton.value);
+            console.log(valueButton);
+            if(!(valueButton%2)) {
+                $(elementButton).prev().prev().fadeOut(function(){
+                    $(elementButton).prev().fadeIn(function(){
+                        elementButton.innerHTML = 'Back to step'; 
+                        elementButton.disabled = false;
+                    });
+                });
+            }
+            else{
+                $(elementButton).prev().fadeOut(function(){
+                    $(elementButton).prev().prev().fadeIn(function(){
+                        elementButton.innerHTML = 'See Elementar';
+                         elementButton.disabled = false;
+                    });
+                });                
+            }
+            valueButton++;
+            valueButton%=2;
+            elementButton.setAttribute('value', valueButton );
+
+        });         
         return container;
+    }
+
+    this.generateElementHtml = function(step){
+        var elementMatrix = this.list[step].elementMatrixHtml;
+        return generateRowMatrixHtml(elementMatrix);
     }
 }
 
