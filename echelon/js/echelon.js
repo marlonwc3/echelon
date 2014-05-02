@@ -451,7 +451,7 @@ function fixMatrixEchelon(matrix, lim) {
     for (var i = 0; i < matrix.length; i++) {
         for (var j = 0; j < i && j < matrix[i].length; j++) {
             if (matrix[i][j] != 0) {
-                if (matrix[i][j] <= lim && matrix[i][j] > 0) matrix[i][j] = 0;
+                if (Math.abs(matrix[i][j] - 0) <= lim ) matrix[i][j] = 0;
                 else {                                                          
                     return {
                         fixed: false,
@@ -522,12 +522,12 @@ function Steps() {
         
         if(square) {
             fixMatrix(elementMatrix, DIGITS); // round results
-            fixMatrixEchelon(elementMatrix, 0.0001);        
+            
         }
 
         
 
-        fixMatrixEchelon(matrix, 0.0001);  
+        
 
         this.list[this.list.length] = {
             matrix: matrix,
