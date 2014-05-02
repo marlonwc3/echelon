@@ -325,17 +325,19 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
     for (var i = 0; i < matrix.length; i++) {
 
         if (i < matrix[i].length && !matrix[i][i]) {
+            console.log('i: ' + i);
             var j = i;
             var found = false;
             while (!found) {
                 if (j > matrix[i].length || found) break;
                 for (var k = i; k < matrix.length && !found; k++) { // for each line
-                    if (matrix[k][j] && k!=j) {
+               //     console.log('k:' +k);
+                    if (matrix[k][j] ) {
                         if(square) {
                             elementMatrix = cloneMatrix(idendityMatrix);
                             swapRow(elementMatrix, i, k);
                         }
-
+                        console.log('swap row: ' + i + ' per ' + k );
 
                         steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (k + 1), elementMatrix); // save this step                        
                         swapRow(matrix, i, k);
@@ -345,6 +347,9 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
                 j++;
             }
 
+        }
+        else {
+            console.log('i: '+i+ '  matrix[i].length:' + matrix[i].length + '  matrix[i][i]:' + matrix[i][i]);
         }
     }
 }
@@ -430,9 +435,9 @@ function findElementAprox(matrix, element, EPS){
 
 function fixMatrix(matrix, digits, luRound, matrixFind) { // round all matrix[i][j] by the number of 'digits'
     var rounded = 0;
-    console.log('luRound:' + luRound);
+    
     luRound =  (luRound!=undefined && luRound!=null && !isNaN(luRound) && luRound) ? true : false;  // aprox elements of a LU multiply result matrix 
-    console.log('luRound:' + luRound);
+    
     for (var i = 0; i < matrix.length; i++)
         for (var j = 0; j < matrix[i].length; j++)
             if (matrix[i][j] % 1) {
@@ -614,9 +619,9 @@ function Steps() {
             elementButton.setAttribute('value', '0');
             $(elementButton).click(function(){ // define this button action
                elementButton.disabled = true;
-               console.log(elementButton.value + '    ' +  (typeof elementButton.value) ) ;
+               
                var valueButton = parseInt(elementButton.value);
-                console.log(valueButton);
+                
                 if(!(valueButton%2)) {
                     $(elementButton).prev().prev().fadeOut(function(){
                         $(elementButton).prev().fadeIn(function(){
