@@ -233,6 +233,7 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
     matrixA = cloneMatrix(matrix);
     if(matrix.length != matrix[0].length) {square = false; singular =true;} // matrix is not a square matrix
     for (var i = 0; i < matrix.length; i++) {
+        console.log('i: '  +  i);
         // check the bounds for a pivot
         if (i > matrix[i].length) {
             singular = true;
@@ -257,18 +258,52 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
                 }
             }
         }
+        var pivot=0;
+
         //if found a pivot
-        if (!matrix[i][i]) {
-            singular = true;
+
+
+
+/*
+   
+        if(!matrix[i][i]) {
+            singular=true;
+            
+            continue;
             break;
         }
-        var pivot = matrix[i][i];
+        pivot = matrix[i][i];
+        */
+        var pivotPos=i;
+        if (!matrix[i][i]) {
+            singular = true;
+            
+            
+            for(var j = i; j < matrix[i].length; j++){
+                if(matrix[i][j]) {
+                    pivot = matrix[i][j];
+                    pivotPos=j;
+                    break;
+                }
+            }
+
+
+            if(!pivot) {
+                //swapRowsNulls(matrix);
+                continue;}
+            console.log(' not find at: ' +  i + '  pivot found:' +  pivot);
+            //break;
+        }
+        else pivot = matrix[i][i];
+
+
+       
         // sub all rows
         for (var j = i + 1; j < matrix.length; j++) {
-            factor = (matrix[j][i] / pivot);
-            var info = "(where matrix[" + (j + 1) + "][" + (i + 1) + "]/" + "matrix[" + (i + 1) + "][" + (i + 1) + "] defines this factor)";
+            factor = (matrix[j][pivotPos] / pivot);
+            var info = "(where matrix[" + (j + 1) + "][" + (pivotPos + 1) + "]/" + "matrix[" + (i + 1) + "][" + (pivotPos + 1) + "] defines this factor)";
             subRows(matrix, i, j, factor, info);
-            matrixL[j][i] = factor;
+            if(!singular) matrixL[j][i] = factor;
             
         }
 
@@ -304,6 +339,11 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
 }
 
 
+function nullRow(row){ // verify if a row is a null row (only zeros)
+    for(var i =0; i < row.length; i++) if(row[i]) return false;
+    return true;
+}
+
 
 function findPivotReduce(matrix, a) { // find the pivot for the reduce method of a matrix on row 'a'
     var pivot = 0;
@@ -325,7 +365,7 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
     for (var i = 0; i < matrix.length; i++) {
 
         if (i < matrix[i].length && !matrix[i][i]) {
-            console.log('i: ' + i);
+
             var j = i;
             var found = false;
             while (!found) {
@@ -338,7 +378,6 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
                             elementMatrix = cloneMatrix(idendityMatrix);
                             swapRow(elementMatrix, i, k);
                         }
-                        console.log('swap row: ' + i + ' per ' + k );
 
                         steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (k + 1), elementMatrix); // save this step                        
                         swapRow(matrix, i, k);
@@ -349,9 +388,9 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
             }
 
         }
-        else {
+/*        else {
             console.log('i: '+i+ '  matrix[i].length:' + matrix[i].length + '  matrix[i][i]:' + matrix[i][i]);
-        }
+        }*/
     }
 }
 
