@@ -332,7 +332,8 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
                 if (j > matrix[i].length || found) break;
                 for (var k = i; k < matrix.length && !found; k++) { // for each line
                //     console.log('k:' +k);
-                    if (matrix[k][j] && i != k) {
+                    if(matrix[k][j]) found = true;
+                    if (matrix[k][j] && i!=k ) {
                         if(square) {
                             elementMatrix = cloneMatrix(idendityMatrix);
                             swapRow(elementMatrix, i, k);
@@ -341,7 +342,7 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
 
                         steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (k + 1), elementMatrix); // save this step                        
                         swapRow(matrix, i, k);
-                        found = true;
+                        
                     }
                 }
                 j++;
