@@ -33,6 +33,11 @@ p, h1, h2, h3, h4, a, #navBarTitle, .control-label , #indexGo, #enter ,#echelonB
 
 }
 
+tr {
+  text-align: center;
+}
+
+
 #githubImg {
   height: 45px;
 }
