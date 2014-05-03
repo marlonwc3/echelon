@@ -38,6 +38,12 @@ tr {
 }
 
 
+#gilbetStranImg{ 
+  width: 105%;
+
+}
+
+
 #githubImg {
   height: 45px;
 }
@@ -211,22 +217,16 @@ input[type="text"] {
   }
 }
 
+#rowGilbertStrang .col-md-offset-2 {
+  
+}
 
 #navBarContainer {
     margin-bottom: 62px;
 }
 
 #strangInfo {
-  -webkit-transform: translateX(-1px) translateY(68px) rotate(-17deg);
-  -moz-transform: translateX(-1px) translateY(68px) rotate(-17deg);
-  -ms-transform: translateX(-1px) translateY(68px) rotate(-17deg);
-  -o-transform: translateX(-1px) translateY(68px) rotate(-17deg);
-  transform: translateX(-1px) translateY(68px) rotate(-17deg);
-
-  -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  -o-transition-delay: 0s;
-  transition-delay: 0s;
+  font-size: 105%;
 }
 
 .container #holdButtons {
