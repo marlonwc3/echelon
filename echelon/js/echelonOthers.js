@@ -1,3 +1,9 @@
+/*
+* Copyright (c) 2006-2011 Marlon Reghert Alves dos Santos & Lucas de Souza Albuquerque
+ * Licensed under GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
+ * 
+*/
+
 /*This file contains all methods relative of PA=LU operation and Elementary Matrix building*/
 
 

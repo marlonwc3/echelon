@@ -1,3 +1,9 @@
+/*
+* Copyright (c) 2006-2011 Marlon Reghert Alves dos Santos & Lucas de Souza Albuquerque
+ * Licensed under GPL (http://www.opensource.org/licenses/gpl-license.php) licenses.
+ * 
+*/
+
 var test = false;
 if(test) { 
 	//TEST ONE
