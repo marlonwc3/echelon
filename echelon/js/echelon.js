@@ -288,10 +288,27 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
             }
 
 
-            if(!pivot) {
+            if(!pivot) { // if after search by columns has not found a valid pivot
                 //swapRowsNulls(matrix);
-                continue;}
-            console.log(' not find at: ' +  i + '  pivot found:' +  pivot);
+                console.log('Not found valid pivot on row at: ' + i);
+                for(var j = i+1; j < matrix.length; j++){
+                    
+                    if( !nullRow(matrix[j]) ) {
+                        if(square) {
+                            elementMatrix = cloneMatrix(idendityMatrix);
+                            swapRow(elementMatrix, i, j);
+                        }
+
+                        steps.saveStep(matrix, "Swap row nº" + (i + 1) + " with row nº" + (j + 1), elementMatrix); // save this step                        
+                        swapRow(matrix, i, j);
+                        i--;
+                        break;
+                    }
+                }
+
+                continue;
+            }
+           // console.log(' not find at: ' +  i + '  pivot found:' +  pivot);
             //break;
         }
         else pivot = matrix[i][i];
@@ -306,8 +323,6 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
             if(!singular) matrixL[j][i] = factor;
             
         }
-
-
 
     }
     swapRowsNulls(matrix);
