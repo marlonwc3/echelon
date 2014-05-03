@@ -37,8 +37,20 @@ tr {
   text-align: center;
 }
 
+#PALUbutton {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
 
-#gilbetStranImg{ 
+#backIndex {
+  margin-bottom: 10px;
+}
+#echelonButton{
+  margin-bottom: 10px;
+}
+
+
+#gilbertStrangImg{ 
   width: 105%;
 
 }
@@ -217,9 +229,7 @@ input[type="text"] {
   }
 }
 
-#rowGilbertStrang .col-md-offset-2 {
-  
-}
+
 
 #navBarContainer {
     margin-bottom: 62px;
@@ -294,7 +304,7 @@ input[type="text"] {
 }
 
 #myContainer #holdButtons {
-  padding-left: 20px;
+  padding-left: 25px;
 }
 
 #mySteps #holdButtons {
