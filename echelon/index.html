@@ -98,7 +98,7 @@
           <p class="subheader">Dev by: </p>           
           <p style=""> <a target="_blank" href="http://www.cin.ufpe.br/~mras/">Marlon Reghert Alves dos Santos</a> (mras@cin.ufpe.br)</p>
         </span> 
-        <p class="subheader">in collaboration with Linear Algebra tutor:</p>
+        <p class="subheader">in collaboration with </p>
         <span id="devBy">
 
           <p> <a target="_blank" href="http://www.cin.ufpe.br/~lsa2/">Lucas de Souza Albuquerque</a> (lsa2@cin.ufpe.br)</p>  
@@ -124,7 +124,7 @@
       </div>
       <div class="modal-footer" style="text-align: center;">
         <p>All persons mentioned above have awesome projects, games, tools, and more! You can check their jobs clicking on his names.</p>
-        <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary btn-md" id="modalBackButton" data-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
@@ -208,7 +208,7 @@
       </form>
 
       <div class="col-xs-12 col-md-4 col-md-offset-4">
-        <button id="indexGo" name="singlebutton" class="btn btn-primary">Go ahead</button>
+        <button id="indexGo" name="singlebutton" class="btn btn-success">Go ahead <span class="glyphicon glyphicon-hand-right"></span> </button>
       </div>  
     </div>
 
@@ -235,8 +235,9 @@
 
   <br>
   <div class="container" id="holdButtons">
-    <button class="btn btn-primary" id="backIndex">Settings</button>
-    <button class="btn btn-success" id="echelonButton">Echelon</button>
+    <button class="btn btn-primary" id="backIndex"><span class="glyphicon glyphicon-hand-left"> </span>   Settings  </button>
+    <button class="btn btn-success" id="echelonButton"> <span id="echelonButtonText">Echelon</span>
+     <span id="echelonButtonGlyph" class="glyphicon glyphicon-sort-by-attributes"></span></button>
   </div>
 
 </div>
@@ -279,11 +280,12 @@
        </h4>
       <!-- Buttons container  -->
       <div class="container" id="holdButtons">
-        <button class="btn  btn-primary"  role="button" id="back">Go back
+        <button class="btn  btn-primary"  role="button" id="back"><span class="glyphicon glyphicon-hand-left"> </span>   Back to input
         </button>        
         <button class="btn btn-info"  role="button" id="PALUbutton">PA=LU
         </button>        
         <button class="btn btn-info"  role="button" id="stepByStep">Step-by-step
+          <span class="glyphicon glyphicon-step-forward"></span>
         </button>        
       </div>
 
@@ -297,7 +299,11 @@
 
       <!-- Buttons container  -->
       <div class="container" id="holdButtons">
-        <button class="btn btn-primary" id="backFromPALU">Back to my results</button>
+        <button class="btn btn-primary" id="backFromPALU">
+
+          <span class="glyphicon glyphicon-hand-left"> </span>
+
+          Back to my result</button>
       </div>   
 
 
@@ -311,7 +317,8 @@
 <div class="container" id="mySteps">
 
   <div class="container" id="holdButtons">
-    <button class="btn btn-primary" id="backToResults">Back to my results</button>
+    
+    <button class="btn btn-primary" id="backToResults"><span class="glyphicon glyphicon-hand-left"> </span>   Back to my result</button>
   </div>
 </div>
 

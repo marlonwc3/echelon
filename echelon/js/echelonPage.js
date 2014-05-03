@@ -154,13 +154,21 @@ $(document).ready(function() {
     n = select[0].options[select[0].selectedIndex].text;
     m = select[1].options[select[1].selectedIndex].text;
     reduced = document.getElementById('checkboxes-0').checked;
+
     if(n!=m) {
       singular = true;
       square = false;
     }
     else square = true;
     //restart the amtrix
-
+    var echelonButtonText = 'Echelon';
+    var echelonButtonGlyph = 'glyphicon glyphicon-sort-by-attributes';
+    if(reduced) {
+      echelonButtonText = 'Reduce';
+      echelonButtonGlyph = 'glyphicon glyphicon-sort';
+    }
+    document.getElementById('echelonButtonText').innerHTML = echelonButtonText;
+    document.getElementById('echelonButtonGlyph').setAttribute('class', echelonButtonGlyph);
 
 
     $("#myIndexContainer").fadeOut("fast", function() {
@@ -234,6 +242,20 @@ $(document).ready(function() {
       }*/
       setTableWidth(matrix, matrixResultsHolder);
       designMatrixBorders(m);
+
+      var squareStatus = document.getElementById('squareStatus');
+      glyph = document.createElement('span');
+      glyph.setAttribute('id', 'glyphSingular');      
+      if(square) {
+        glyph.setAttribute('class', 'glyphicon glyphicon-th-large');
+        squareStatus.innerHTML = 'Square';
+      }
+      else {
+         glyph.setAttribute('class', 'glyphicon glyphicon-align-center');
+        squareStatus.innerHTML = 'Non-square';
+      }
+      squareStatus.appendChild(glyph);
+
       var glyph = document.createElement('span');
       var PALUButon = document.getElementById('PALUbutton');
       var singularStatus = document.getElementById('singularStatus');
@@ -262,18 +284,7 @@ $(document).ready(function() {
       }
       singularStatus.appendChild(glyph);
 
-      var squareStatus = document.getElementById('squareStatus');
-      glyph = document.createElement('span');
-      glyph.setAttribute('id', 'glyphSingular');      
-      if(square) {
-        glyph.setAttribute('class', 'glyphicon glyphicon-th-large');
-        squareStatus.innerHTML = 'Square';
-      }
-      else {
-         glyph.setAttribute('class', 'glyphicon glyphicon-align-center');
-        squareStatus.innerHTML = 'Non-square';
-      }
-      squareStatus.appendChild(glyph);
+
 
 
       $("#myContainer").fadeOut("fast", function() {
@@ -326,12 +337,22 @@ $(document).ready(function() {
       $("#myContainerResults").fadeOut("slow", function() {
 
         $("#mySteps").fadeIn("slow", function() {
-
+/*          var first;
+          var noElementar = (!square && steps.size > 1);*/
           for (var i = 0; i < steps.size; i++) {
+
             var el = steps.generateStepHtml(i);
+            //if(noElementar && !i) first = el;
             myStepsButton.parentNode.insertBefore(el, myStepsButton); // insert all nodes before buttons div
            // myStepsButton.parentNode.insertBefore(elementMatrix, myStepsButton);
           }
+
+/*          if(noElementar) {
+            var nonSquare = document.createElement('p');
+            nonSquare.innerHTML = "Non-square matrix doesn't have Elementar matrix, the world is unfair :( "
+            first.parentNode.insertBefore(nonSquare, first);
+
+          }*/
 
           $("#buttonMatrixElement").click(function(){
 

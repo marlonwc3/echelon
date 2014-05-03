@@ -57,6 +57,10 @@ tr {
   font-weight: bolder;
 }
 
+#modalBackButton{
+  width: 80px;
+}
+
 #devBy {
   font-size: 20px;
   font-weight: bold ;
