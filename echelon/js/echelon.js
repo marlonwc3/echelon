@@ -332,7 +332,7 @@ function swapRowsNulls(matrix) { // swap all rows that are null to bottom of mat
                 if (j > matrix[i].length || found) break;
                 for (var k = i; k < matrix.length && !found; k++) { // for each line
                //     console.log('k:' +k);
-                    if (matrix[k][j] ) {
+                    if (matrix[k][j] && i != k) {
                         if(square) {
                             elementMatrix = cloneMatrix(idendityMatrix);
                             swapRow(elementMatrix, i, k);
@@ -591,7 +591,7 @@ function Steps() {
         description.setAttribute('id', 'descriptionStep');
 
         //set description
-        title.innerHTML = 'Step: ' + (step + 1);
+        title.innerHTML =  ((step != this.list.length-1) ? ('Step: '+ (step + 1)) : "It's over" );
         description.innerHTML = descriptionText;
 
         // apend child's from description

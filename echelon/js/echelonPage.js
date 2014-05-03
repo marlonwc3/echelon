@@ -48,8 +48,8 @@ function getMatrix() { //search on span whose id is "holdMatrix"
     for (var i = 0; i < n; i++) {
         var cols = rows[i].getElementsByTagName('input');
         for (var j = 0; j < m; j++) {
-
-            if (cols[j].value !== "") matrix[i][j] = parseFloat(cols[j].value);
+            if(cols[j].value === "-") matrix[i][j] = 0;
+            else if (cols[j].value !== "") matrix[i][j] = parseFloat(cols[j].value);
             //else matrix[i][j] = Math.floor(Math.random() * 99999); // use to debug
             else matrix[i][j] = 0;
 
@@ -221,7 +221,7 @@ $(document).ready(function() {
       alert('Bad inputs, are you trying to bug my code? Change your inputs.');
     } else {
 
-      steps.saveStep(matrix, "We've done this matrix, just " + (steps.size+1) + (steps.size > 1 ? ' steps':' step' ) + "." , idendityMatrix);
+      steps.saveStep(matrix, "We've done this matrix, just " + (steps.size) + (steps.size > 1 || !steps.size ? ' steps':' step' ) + "." , idendityMatrix);
       restartElement('matrixResultsHolder', 'table'); // erase all old results
 
 
