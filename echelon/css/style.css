@@ -1,6 +1,3 @@
-#results {
-	background-color: gray;
-}
 
 
 
@@ -30,8 +27,21 @@ p, h1, h2, h3, h4, a, #navBarTitle, .control-label , #indexGo, #enter ,#echelonB
   /* bold, bolder, light, normal, */
 }
 
+#linkGitHub {
+  padding-top: 5px;
+  padding-bottom: 0px;
+
+}
+
+#githubImg {
+  height: 45px;
+}
 #glyphSingular  {
   margin-left: 12px;
+}
+
+#results {
+  background-color: gray;
 }
 
 #singularStatus, #statusMatrix, #squareStatus {
