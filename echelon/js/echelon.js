@@ -328,7 +328,7 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
         fixMatrix(matrixLU,DIGITS, true, matrixA);
         console.log('Matrix L*U:');
         logMatrix(matrixLU);
-        matrixP = generatePermutationMatrix(matrixA, matrixLU ); // P * A = L * U
+        matrixP = generatePermutationMatrix(matrixLU, matrixA  ); // P * A = L * U
         console.log('Matrix P:');
         logMatrix(matrixP); 
     }
