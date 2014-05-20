@@ -75,10 +75,33 @@ tr {
   background-color: gray;
 }
 
-#singularStatus, #statusMatrix, #squareStatus {
+
+#detCalcInfo{
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+   
+  font-family: OpenSans-Light;
+  font-weight: lighter; 
+}
+
+#detCalcCol{
+  border-top: 2px solid #ccc;
+  border-bottom: 2px solid #ccc;
+
+
+}
+
+#detInfo {
+  font-size: 13px;
+}
+
+#singularStatus, #statusMatrix, #squareStatus, #detResult {
   font-family: OpenSans-Light;
   font-weight: bolder;
 }
+
+
 
 #modalBackButton{
   width: 80px;

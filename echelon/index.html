@@ -263,7 +263,7 @@ Licensed under GPL (http://www.opensource.org/licenses/gpl-license.php) licenses
       </p>
     </div>
 
-      <div class="row centered">
+      <div class="row centered" id="matrixTableResult">
         <div class="col-xs-12">
           <div id="resultsResponsive">
             <table class="multipleCols box table table-bordered" id="matrixResultsHolder">
@@ -277,6 +277,18 @@ Licensed under GPL (http://www.opensource.org/licenses/gpl-license.php) licenses
         </div>
 
       </div>
+      <!-- Container that contain the steps -->  
+      <div class="row centered" id="detCalc">
+        <div class="col-xs-6 col-xs-offset-3" id="detCalcCol">
+          <p id="detCalcInfo"> 
+
+          </p>
+
+
+        </div>
+
+        
+      </div>
 
       <h4>
 
@@ -285,15 +297,25 @@ Licensed under GPL (http://www.opensource.org/licenses/gpl-license.php) licenses
           <p id="squareStatus"></p>
           <p id="singularStatus"> <span id="glyphSingular"></span></p>
           
+
+          <p id="detResult"></p>
+
+          <p id="detInfo"> Click on "Determinant" button bellow to see how we found this result above</p>
+
+
+        
         </strong>
 
        </h4>
+
       <!-- Buttons container  -->
       <div class="container" id="holdButtons">
         <button class="btn  btn-primary"  role="button" id="back"><span class="glyphicon glyphicon-hand-left"> </span>   Back to input
-        </button>        
-        <button class="btn btn-info"  role="button" id="PALUbutton">PA=LU
-        </button>        
+        </button>
+        <button class="btn btn-warning"  role="button" id="detCheck" value="0"> Determinant
+        </button>                     
+        <button class="btn btn-warning"  role="button" id="PALUbutton">PA=LU
+        </button>              
         <button class="btn btn-info"  role="button" id="stepByStep">Step-by-step
           <span class="glyphicon glyphicon-step-forward"></span>
         </button>        
@@ -315,9 +337,6 @@ Licensed under GPL (http://www.opensource.org/licenses/gpl-license.php) licenses
 
           Back to my result</button>
       </div>   
-
-
-
 </div>
 
 

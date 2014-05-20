@@ -21,6 +21,7 @@ var matrixL = [];
 var matrixA = [];
 var matrixP = [];
 var matrixU = [];
+var permutationsNumber = 0;
 var idendityMatrix = [];
 var elementMatrix = [];
 var singular = false;
@@ -210,7 +211,27 @@ var generatePermutationMatrix = function(matrixA, matrixB) {
 
 };
 
+function diagonalProduct(matrix){
+    var result = 1, i=0, j=0;
+    while(true) {
+        if( i >= matrix.length || j >= matrix[i].length ) break;
+        result*=matrix[i][j];
+        i++; j++;
+    }
+    return result;
+}
 
+// determinant = Product of diagonal   *  -1^(permutationsNumber)
+function determinant(matrix){ 
+    if(matrix.length != matrix[0].length) return 0; // singular
+    var signal = Math.pow(-1, permutationsNumber);
+    var product = diagonalProduct(matrix);
+    return {
+        signal: signal,
+        diagonalProduct: product,
+        result: (signal*product)
+    };
+}
 
 function echelonMatrix(matrix) { // get a echelon form of a matrix and return if a matrix is singular
     singular = false;
@@ -237,30 +258,18 @@ function echelonMatrix(matrix) { // get a echelon form of a matrix and return if
                     
                     steps.saveStep(matrix, "Swap row nº" + (i+ 1) + " with row nº" + (j+ 1), elementMatrix); // save this step
                     
+
                     swapRow(matrix, i, j);
+                    permutationsNumber++;
                     swapRow(matrixL, i, j, true);
                     break;
                 }
             }
         }
         var pivot=0;
-
         //if found a pivot
-
-
-
-/*
-   
-        if(!matrix[i][i]) {
-            singular=true;
-            
-            continue;
-            break;
-        }
-        pivot = matrix[i][i];
-        */
         var pivotPos=i;
-        if (!matrix[i][i]) {
+        if (!matrix[i][i]) { // singular matrix 
             singular = true;
             
             
@@ -600,6 +609,7 @@ function Steps() {
     this.getAllHtml = function() {
 
     }
+
 
     this.generateStepHtml = function(step) {
 

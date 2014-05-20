@@ -171,6 +171,7 @@ $(document).ready(function() {
 
 
   var matrixResultsHolder;
+  var detCheck = document.getElementById('detCheck');
   // set all button's events
   $("#echelonButton").click(function() {
     // restart matrix
@@ -184,13 +185,16 @@ $(document).ready(function() {
     initMatrix(matrixP, n,m,true); 
     initMatrix(idendityMatrix, n,m, true);
     initMatrix(elementMatrix, n,m, true);
+    permutationsNumber=0;
     getMatrix(); // get the matrix via html tags
 
 
     //call echelon main method   
     echelonMatrix(matrix);
 
-
+    $("#detCalc").hide();
+    detCheck.innerHTML = "Determinant";
+    detCheck.value=0;
     if (reduced) {
       matrixU = cloneMatrix(matrix);
       fixMatrixEchelon(matrixU, 0.0001);
@@ -228,6 +232,8 @@ $(document).ready(function() {
       designMatrixBorders(m);
 
       var squareStatus = document.getElementById('squareStatus');
+      var detResult = document.getElementById('detResult');
+
       glyph = document.createElement('span');
       glyph.setAttribute('id', 'glyphSingular');      
       if(square) {
@@ -235,24 +241,27 @@ $(document).ready(function() {
         squareStatus.innerHTML = 'Square';
       }
       else {
-         glyph.setAttribute('class', 'glyphicon glyphicon-align-center');
+        glyph.setAttribute('class', 'glyphicon glyphicon-align-center');
         squareStatus.innerHTML = 'Non-square';
       }
       squareStatus.appendChild(glyph);
 
       var glyph = document.createElement('span');
       var PALUButon = document.getElementById('PALUbutton');
+     
       var singularStatus = document.getElementById('singularStatus');
       glyph.setAttribute('id', 'glyphSingular');
       if(singular) {
+        detCheck.disabled=true;
         PALUButon.disabled = true;
-        
         singularStatus.innerHTML = 'Singular';
         glyph.setAttribute('class', 'glyphicon glyphicon-link');
 //        document.getElementById('singularStatus').appendChild(glyph);
-    
+        detResult.innerHTML = "Determinant equals 0, it's a singular matrix"
+        $("#detInfo").hide();
       }
       else {
+        detCheck.disabled=false;
         fixMatrix(matrixL, DIGITS);        
         fixMatrix(matrixA, DIGITS);
 
@@ -260,8 +269,27 @@ $(document).ready(function() {
         PALUButon.disabled = false;
 
         glyph.setAttribute('class', 'glyphicon glyphicon-transfer');
-        singularStatus.innerHTML = 'Non-singular';  
 
+        singularStatus.innerHTML = 'Non-singular';  
+        var det = determinant(matrixU);
+        // get info to det
+        var detCalcInfo = document.getElementById("detCalcInfo");
+        document.getElementById("detCalcInfo").innerHTML="TESTETE";
+
+        var detInfoStr = "";
+        detInfoStr += "Our pivot product it's aprox. equals:  " + fixNumber(det.diagonalProduct, DIGITS) + "</br>";
+        detInfoStr += "And we did: " + (permutationsNumber) + " permutation" + ((permutationsNumber==1) ? "" : "s") + "</br>"; 
+        detInfoStr += "And we know that: for each row permutation, our determinant invert his signal" + "</br>";
+        detInfoStr += "So we must to multiply our digonal product by: (-1)^("+permutationsNumber+") <br> that  is: " + det.signal + "</br>";
+        detInfoStr += "(" + fixNumber(det.diagonalProduct, DIGITS) +") * ("+det.signal+")" + "</br>";
+        detInfoStr += " = " + fixNumber(det.result, DIGITS);
+
+        document.getElementById("detCalcInfo").innerHTML = detInfoStr;
+        //detInfoStr = "First we must know how many permutations we did, in this case we did: " + (permutationsNumber) + " permutation" + (permutationsNumber==1) ? "" : "s" + " to get our echelon form"; 
+        //detCalcInfo.innerHTML= detInfoStr;
+
+        detResult.innerHTML = "Determinant: " +  fixNumber(det.result, DIGITS);
+        $("#detInfo").show(); 
         logMatrix('resultado:');
         logMatrix(multiplyMatrices(matrixL, matrixU) );
 
@@ -272,7 +300,9 @@ $(document).ready(function() {
 
 
       $("#myContainer").fadeOut("fast", function() {
+        $("#matrixTableResult").show();
         $("#myContainerResults").fadeIn("fast");
+
       });
     }
   });
@@ -311,6 +341,33 @@ $(document).ready(function() {
       });
     });
   });
+
+  
+  $(detCheck).click(function(){
+    var valueDetButton = parseInt(detCheck.value);
+
+
+    detCheck.disabled = true;
+    if(!valueDetButton) {
+      $("#matrixTableResult").fadeOut("slow", function(){
+        $("#detCalc").fadeIn("slow", function(){
+          detCheck.innerHTML = "Back to matrix";
+          detCheck.disabled = false;
+        });
+      });
+    }
+    else{
+      $("#detCalc").fadeOut("slow", function(){
+        $("#matrixTableResult").fadeIn("slow", function(){
+          detCheck.innerHTML = "Determinant";
+          detCheck.disabled = false;          
+        });
+      });
+    }
+    detCheck.setAttribute('value', ((valueDetButton+1)%2) );
+  });
+
+
 
   $("#stepByStep").click(function() {
     if (!runningStep) {
